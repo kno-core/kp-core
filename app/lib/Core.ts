@@ -21,6 +21,12 @@ export class Core implements StackInterface {
 
 	public route(route: Route) {
 
+		var url = require('url');
+		var url_parts = url.parse(route.getRequest().url, true);
+		route.getRequest().query = url_parts.query;
+		console.log(url_parts.query);
+		route.getRequest().url = route.getRequest().url.split("?")[0];
+
 		let chain:Array<Layer> = [];
 		this.stack.forEach(function (layer) {
 

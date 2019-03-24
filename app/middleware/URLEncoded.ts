@@ -14,7 +14,7 @@ export class URLEncoded implements MiddlewareInterface {
 
 		app.use('/(.+)?', function (route: RouteInterface) {
 			return new Promise(function (resolve, reject) {
-				bodyParser.urlencoded({ extended: false })(route.getRequest(),route.getResponse(),resolve);
+				bodyParser.urlencoded({ extended: true })(route.getRequest(),route.getResponse(),resolve);
 			});
 		});
 
