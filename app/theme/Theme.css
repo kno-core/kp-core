@@ -1,0 +1,46 @@
+@charset "UTF-8";
+#message-queue {
+  height: 0;
+  overflow-y: visible;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0; }
+
+#message-queue input {
+  background: #fff; }
+
+input[type=submit].primary, button.primary {
+  border-color: #0081f5;
+  color: #0081f5; }
+
+input[type=submit].primary:hover, button.primary:hover {
+  border-color: #0081f5;
+  color: #bce1ff;
+  background-color: #0081f5;
+  cursor: pointer; }
+
+input[type=submit].primary:active, button.primary:active {
+  border-color: #bce1ff;
+  color: #0081f5;
+  background-color: #bce1ff;
+  cursor: pointer; }
+
+select {
+  padding-right: 56px; }
+
+.select-wrapper {
+  position: relative; }
+
+.select-wrapper:after {
+  font-family: monospace;
+  content: '⤓';
+  font-size: 14px;
+  position: absolute;
+  top: 2.52px;
+  right: 10.5px;
+  color: #434B67;
+  pointer-events: none;
+  font-weight: bolder; }
+
+/*# sourceMappingURL=Theme.css.map */

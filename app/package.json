@@ -10,5 +10,12 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bytes": "^3.1.0",
+    "content-type": "^1.0.4",
+    "http-errors": "^1.7.2",
+    "type-is": "^1.6.16"
+  }
 }

@@ -21,21 +21,32 @@ export class Core implements StackInterface {
 
 	public route(route: Route) {
 
-		let chain = [];
+		let chain:Array<Layer> = [];
 		this.stack.forEach(function (layer) {
 
 			let match = route.getRequest().url.match(layer.route);
 			if (match) {
-				route.getRequest().params = match.slice(1);
-				console.log(layer);
-				let p: Promise<any> = layer.fn(route);
-				chain.push(p);
+				chain.push(layer);
 			}
 		});
 
-		return Promise.all(chain).then(function () {
-			// Chain has been complete
+		return new Promise(function (resolve, reject) {
+			function process(){
+				if (chain.length > 0){
+					let layer:Layer = chain.shift();
+					layer.fn(route).then(function(){
+						process();
+					}).catch(function(){
+						route.getResponse().end(`CHAIN FAILED`);
+						reject();
+					});
+				}else{
+					resolve();
+				}
+			}
+			process();
 		});
+
 	}
 
 	public http_listener(request, response) {

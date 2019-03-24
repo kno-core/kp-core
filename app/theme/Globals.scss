@@ -1,0 +1,8 @@
+$base_font_size: 14px;
+$base_line_height: 18px;
+$leading: $base-line-height;
+
+@mixin text-size($size) {
+  font-size: $base_font_size*$size;
+  line-height: $base_line_height*$size;
+}
