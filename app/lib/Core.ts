@@ -1,28 +1,34 @@
-import {LayerInterface} from "./layer/Layer.interface";
-import {Stack} from "./layer/Stack";
+import {Layer} from "./layer/Layer";
 import {Route} from "./Route";
+import {MiddlewareInterface} from "./MiddlewareInterface";
+import {StackInterface} from "./layer/StackInterface";
 
-export class Core implements LayerInterface {
+export class Core implements StackInterface {
 
-	private stack: Array<Stack>;
+	stack: Array<Layer>;
 
 	constructor() {
 		this.stack = [];
 	}
 
-	public use(route: string, layer: LayerInterface) {
-		this.stack.push(new Stack(route, layer));
+	public register(middleware: MiddlewareInterface) {
+		middleware.setup(this);
+	}
+
+	public use(route, fn?): void {
+		this.stack.push(new Layer(route, fn));
 	}
 
 	public route(route: Route) {
 
 		let chain = [];
-		this.stack.forEach(function (stack) {
+		this.stack.forEach(function (layer) {
 
-			let match = route.getRequest().url.match(stack.route);
+			let match = route.getRequest().url.match(layer.route);
 			if (match) {
 				route.getRequest().params = match.slice(1);
-				let p: Promise<any> = stack.layer.route(route);
+				console.log(layer);
+				let p: Promise<any> = layer.fn(route);
 				chain.push(p);
 			}
 		});

@@ -1,7 +1,14 @@
-import {LayerInterface} from "./Layer.interface";
-import {Route} from "../Route";
+import {LayerInterface} from "./LayerInterface";
 
 export class Layer implements LayerInterface {
-	route(route: Route) {}
-	use(route, fn?) {}
+	route: string;
+	fn: any;
+
+	constructor(route, fn) {
+		if (!(route instanceof RegExp)) {
+			route = new RegExp("^" + route + "$")
+		}
+		this.route = route;
+		this.fn = fn;
+	}
 }
