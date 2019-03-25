@@ -24,21 +24,6 @@ export class URLEncoded implements MiddlewareInterface {
 			});
 		});
 
-		// DEBUG ONLY
-		app.use('/(.+)?', function (route: RouteInterface) {
-			return new Promise(function (resolve, reject) {
-
-				bodyParser.json()(route.getRequest(),route.getResponse(),function(req,res,next){
-
-					if (route.getRequest().body) {
-						route.enqueueBody(JSON.stringify(route.getRequest().body));
-					}
-
-					resolve();
-				});
-
-			});
-		});
 	}
 
 }

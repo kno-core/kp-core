@@ -2,13 +2,29 @@ import {Layer} from "./layer/Layer";
 import {Route} from "./Route";
 import {MiddlewareInterface} from "./MiddlewareInterface";
 import {StackInterface} from "./layer/StackInterface";
+import {ProviderInterface} from "./ProviderInterface";
+import {Database} from "./Database";
+import {MongoDB} from "./MongoDB";
+import {Authenticator} from "./Authenticator";
+import {DatabaseInterface} from "./DatabaseInterface";
 
-export class Core implements StackInterface {
+export class Core implements StackInterface, ProviderInterface {
 
 	stack: Array<Layer>;
 
+	private iam: Authenticator;
+	private db: Database;
+
 	constructor() {
 		this.stack = [];
+
+		this.db = new Database();
+
+		let mongo_db_stream = new MongoDB('kino', function () {
+		});
+		this.db.openDB(mongo_db_stream, 'kino');
+
+		this.iam = new Authenticator(this.db, 'kino');
 	}
 
 	public register(middleware: MiddlewareInterface) {
@@ -27,7 +43,7 @@ export class Core implements StackInterface {
 		console.log(url_parts.query);
 		route.getRequest().url = route.getRequest().url.split("?")[0];
 
-		let chain:Array<Layer> = [];
+		let chain: Array<Layer> = [];
 		this.stack.forEach(function (layer) {
 
 			let match = route.getRequest().url.match(layer.route);
@@ -37,19 +53,20 @@ export class Core implements StackInterface {
 		});
 
 		return new Promise(function (resolve, reject) {
-			function process(){
-				if (chain.length > 0){
-					let layer:Layer = chain.shift();
-					layer.fn(route).then(function(){
+			function process() {
+				if (chain.length > 0) {
+					let layer: Layer = chain.shift();
+					layer.fn(route).then(function () {
 						process();
-					}).catch(function(){
+					}).catch(function () {
 						route.getResponse().end(`CHAIN FAILED`);
 						reject();
 					});
-				}else{
+				} else {
 					resolve();
 				}
 			}
+
 			process();
 		});
 
@@ -83,6 +100,14 @@ export class Core implements StackInterface {
 			}
 			console.log(`Core HTTP Server is listening on port ${port}`)
 		});
+	}
+
+	DB(): DatabaseInterface {
+		return this.db;
+	}
+
+	IAM(): Authenticator {
+		return this.iam;
 	}
 }
 
