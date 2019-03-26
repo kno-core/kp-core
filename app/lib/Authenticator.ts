@@ -14,7 +14,7 @@ export class Authenticator {
 	}
 
 	public isAuthenticated(route:RouteInterface) {
-		return (!!route.getRequest().session.passport.user);
+		return (route.getRequest().session && route.getRequest().session.passport && route.getRequest().session.passport.user);
 	}
 
 	public getUser(route){

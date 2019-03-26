@@ -20,8 +20,7 @@ export class Core implements StackInterface, ProviderInterface {
 
 		this.db = new Database();
 
-		let mongo_db_stream = new MongoDB('kino', function () {
-		});
+		let mongo_db_stream = new MongoDB('kino', function () {});
 		this.db.openDB(mongo_db_stream, 'kino');
 
 		this.iam = new Authenticator(this.db, 'kino');
@@ -59,6 +58,7 @@ export class Core implements StackInterface, ProviderInterface {
 					layer.fn(route).then(function () {
 						process();
 					}).catch(function () {
+						console.log(layer);
 						route.getResponse().end(`CHAIN FAILED`);
 						reject();
 					});
