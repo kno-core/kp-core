@@ -14,6 +14,15 @@
   //z-index: 99;
 }
 
+.hero {
+  padding: $leading*2 0;
+}
+
+.bg-primary {
+  background-color: #0081f5;
+  color: #fff;
+}
+
 input[type=submit].primary, button.primary {
   border-color: #0081f5;
   color: #0081f5;
@@ -34,8 +43,9 @@ input[type=submit].primary:active, button.primary:active {
 }
 
 select {
-  padding-right:$base_font_size*4;
+  padding-right: $base_font_size*4;
 }
+
 .select-wrapper {
   position: relative;
 }

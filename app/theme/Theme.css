@@ -10,6 +10,13 @@
 #message-queue input {
   background: #fff; }
 
+.hero {
+  padding: 36px 0; }
+
+.bg-primary {
+  background-color: #0081f5;
+  color: #fff; }
+
 input[type=submit].primary, button.primary {
   border-color: #0081f5;
   color: #0081f5; }
