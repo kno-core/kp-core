@@ -5,9 +5,14 @@ A promise oriented typescript connect/express inspired framework for responsive,
 
 Copy `./app/secrets.example.json` to `./app/secrets.json` and enter appropriate details
 
-Then, run the app:
+Secondly, install the packages:
 ```bash
 $ cd ./app/
+$ npm install
+```
+
+Then, run the app:
+```bash
 $ ts-node app.ts
 ```
 
