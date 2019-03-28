@@ -1,8 +1,9 @@
 export class BlockSchema {
-	public name;
-	private type;
+	public name:string;
+	private type:string;
 	private value;
-	private created;
+	private created:number;
+	private last_modified: number;
 
 	constructor(block?) {
 
@@ -10,7 +11,8 @@ export class BlockSchema {
 		this.name = block.name || 'untitled';
 		this.type = block.type || '';
 		this.value = block.value || '';
-		this.created = block.value || Date.now();
+		this.created = block.created || Date.now();
+		this.last_modified = block.last_modified || this.created;
 
 	}
 

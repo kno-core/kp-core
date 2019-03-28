@@ -44,6 +44,7 @@ input[type=submit].primary:active, button.primary:active {
 
 select {
   padding-right: $base_font_size*4;
+  cursor:pointer;
 }
 
 .select-wrapper {
@@ -55,7 +56,7 @@ select {
   content: '⤓';
   font-size: $base_font_size;
   position: absolute;
-  top: $base_font_size*0.18;
+  top: $base_font_size*0.10;
   right: $base_font_size*0.75;
   color: #434B67;
   pointer-events: none;

@@ -20,7 +20,6 @@
 		};
 		xhr.send(null);
 
-
 		this.render = function () {
 			let self = this;
 			new Promise(function (resolve, reject) {
@@ -31,10 +30,12 @@
 				if (self.collections.length > 1) {
 					let options = [];
 					self.collections.forEach(function (collection, index) {
-						options.push(`<option value="${index}" ${(self._collection === index ? `selected='selected'` : '')}>${collection.name}</option>`);
+						options.push(`<option value="${index}" ${(self._collection === index ? `selected='selected'` : '')}>${collection.type}</option>`);
 					});
-					str.push(`<tr><td colspan="${width}"><span class="select-wrapper"><select id="select-collection">${options.join('')}</select></span> <a href="/collections/${self.collections[self._collection].name}/"><button class="primary">Create New ${self.collections[self._collection].name}</button></a></td></tr>`);
+					str.push(`<tr><td colspan="${width}"><span class="select-wrapper"><select id="select-collection">${options.join('')}</select></span> <a href="/collections/${self.collections[self._collection].type}/"><button class="primary">Create New ${self.collections[self._collection].type}</button></a></td></tr>`);
 				}
+
+
 
 				str.push(`<tr>`);
 				self.collections[self._collection].fields.forEach(function (field) {

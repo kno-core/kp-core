@@ -19,9 +19,9 @@
 				}
 			}
 		};
+
 		xhr.send(null);
-
-
+		
 		this.render = function () {
 			let self = this;
 			new Promise(function (resolve, reject) {

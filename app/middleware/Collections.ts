@@ -16,7 +16,6 @@ interface CollectionInterface {
 	remove(collection: string, search)
 }
 
-
 export class Collections implements MiddlewareInterface, CollectionInterface {
 
 	private collections;
@@ -26,33 +25,53 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		let self = this;
 		this.collections = {};
 
-		this.define("User", new ObjectDocumentSchema({"type": "User", fields: [new BlockSchema({"name": "username", "type": "text"})]}));
-		this.define("Site", new ObjectDocumentSchema({
-			"type": "Site",
-			fields: [new BlockSchema({"name": "title", "type": "text"}), new BlockSchema({"name": "url", "type": "text"})]
-		}));
+		this.define("User", new ObjectDocumentSchema(
+			{
+				"type": "User", fields: [
+					new BlockSchema({"name": "username", "type": "text"})
+				]
+			}));
+
+		this.define("Site", new ObjectDocumentSchema(
+			{
+				"type": "Site",
+				fields: [
+					new BlockSchema({"name": "title", "type": "text"}),
+					new BlockSchema({"name": "url", "type": "text"})
+				]
+			}));
 
 		this.define("Page", new ObjectDocumentSchema({
 			"type": "Page",
-			fields: [new BlockSchema({"name": "title", "type": "text"}), new BlockSchema({"name": "slug", "type": "text"})]
+			fields: [
+				new BlockSchema({"name": "title", "type": "text"}),
+				new BlockSchema({"name": "slug", "type": "text"})
+			]
 		}));
 
 		this.define("Image", new ObjectDocumentSchema({
 			"type": "Image",
-			fields: [new BlockSchema({"name": "title", "type": "text"}), new BlockSchema({"name": "slug", "type": "text"})]
+			fields: [
+				new BlockSchema({"name": "title", "type": "text"}),
+				new BlockSchema({"name": "slug", "type": "text"})
+			]
 		}));
 
 		this.define("Template", new ObjectDocumentSchema({
 			"type": "Template",
-			fields: [new BlockSchema({"name": "title", "type": "text"}), new BlockSchema({
-				"name": "css",
-				"type": "code"
-			}), new BlockSchema({"name": "javascript", "type": "code"}), new BlockSchema({"name": "html", "type": "code"})]
+			fields: [
+				new BlockSchema({"name": "title", "type": "text"}),
+				new BlockSchema({"name": "css", "type": "code"}),
+				new BlockSchema({"name": "javascript", "type": "code"}),
+				new BlockSchema({"name": "html", "type": "code"})
+			]
 		}));
 
 		this.define("Comment", new ObjectDocumentSchema({
 			"type": "Comment",
-			fields: [new BlockSchema({"name": "text", "type": "text"})]
+			fields: [
+				new BlockSchema({"name": "text", "type": "text"})
+			]
 		}));
 
 		app.use(`/collections/`, function (route: Route) {
@@ -70,10 +89,10 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				let cols = [];
 				for (var col in self.collections) {
 					if (self.collections.hasOwnProperty(col)) {
-						cols.push(self.collections[col].type);
+						cols.push(self.collections[col]);
 					}
 				}
-				route.enqueueBody(JSON.stringify(cols));//.end(JSON.stringify(cols));
+				route.getResponse().end(JSON.stringify(cols));
 				resolve();
 			});
 		});
@@ -86,9 +105,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 				app.use(`/collections/get/${col.type}`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
-						route.enqueueBody(JSON.stringify(col));
-
-//						route.getResponse().end(JSON.stringify(col));
+						route.getResponse().end(JSON.stringify(col));
 						resolve();
 
 					});
@@ -99,18 +116,12 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
 						route.enqueueScript(readFileSync('./controller/Editor.js').toString());
-						route.enqueueBody(`<h1><span class="muted">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}"></div>`);
-
-						route.enqueueBody(``);
-
+						route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}"></div></div>`);
 						resolve();
 					});
 				});
-
 			}
 		}
-
-
 	}
 
 	define(collection: string, schema: ObjectDocumentSchema) {

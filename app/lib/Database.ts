@@ -10,6 +10,8 @@ export class Database implements DatabaseInterface {
 	public _databaseInMemory;
 
 	constructor() {
+
+		//TODO this should not be using an arbitrary array
 		this._databaseInMemory = [];
 	}
 

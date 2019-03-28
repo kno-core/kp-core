@@ -2,7 +2,6 @@ import {Database} from "./Database";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 import {RouteInterface} from "./RouteInterface";
 
-
 export class Authenticator {
 
 	private db: Database;
@@ -14,10 +13,12 @@ export class Authenticator {
 	}
 
 	public isAuthenticated(route:RouteInterface) {
+		//TODO refactor passport and session specific checks
 		return (route.getRequest().session && route.getRequest().session.passport && route.getRequest().session.passport.user);
 	}
 
 	public getUser(route){
+		//TODO refactor passport and session specific checks
 		return route.getRequest().session.passport.user||false;
 	}
 
@@ -32,19 +33,11 @@ export class Authenticator {
 	}
 
 	getRequestGUID(cookie) {
-
-		/*
-		let cookies = Authenticator.parseCookies(cookie);
-		console.log('COOKIES', cookies);
-		if (cookies['kpid']) { //TODO check is valid cookie
-			return Authenticator.checkToken(cookies['kpid']) ? cookies['kpid'] : Token.generateToken(64);
-		}*/
 		return Authenticator.generateToken(64);
-
 	}
 
 	isValidCookie() {
-		//TO MAKE COOKIES ASSERTABLE
+		//TODO MAKE COOKIES ASSERTABLE
 		return true;
 	}
 

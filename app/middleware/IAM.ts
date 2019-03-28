@@ -11,7 +11,6 @@ export class IAM implements MiddlewareInterface {
 		app.use('/(.+)?', function (route: Route) {
 
 			return new Promise(function (resolve, reject) {
-				//route.enqueueBody(`IAM`);
 				resolve();
 			});
 
@@ -40,7 +39,6 @@ export class IAM implements MiddlewareInterface {
 					route.enqueueScript(`window.location = '/profile/';`);
 				} else {
 					route.enqueueBody(`<h1>Login</h1><p><ul><li><a href="/auth/github/">Login with Github</a></li></ul></p>`);
-
 				}
 				resolve();
 			});
@@ -50,14 +48,7 @@ export class IAM implements MiddlewareInterface {
 		app.use('/logout/', function (route: Route) {
 			return new Promise(function (resolve, reject) {
 				route.enqueueScript(`window.location = '/profile/';`);
-
 				route.getRequest().logout();
-				/*route.getRequest().session.destroy(function (err) {
-					if (err) {
-						//resolve();
-					}
-					resolve();
-				});*/
 				resolve();
 			});
 		});

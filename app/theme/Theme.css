@@ -34,7 +34,8 @@ input[type=submit].primary:active, button.primary:active {
   cursor: pointer; }
 
 select {
-  padding-right: 56px; }
+  padding-right: 56px;
+  cursor: pointer; }
 
 .select-wrapper {
   position: relative; }
@@ -44,7 +45,7 @@ select {
   content: '⤓';
   font-size: 14px;
   position: absolute;
-  top: 2.52px;
+  top: 1.4px;
   right: 10.5px;
   color: #434B67;
   pointer-events: none;
