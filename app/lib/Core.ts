@@ -47,8 +47,10 @@ export class Core implements StackInterface, ProviderInterface {
 
 			let match = route.getRequest().url.match(layer.route);
 			if (match) {
-                route.getRequest().params = match.slice(1);
-                chain.push(layer);
+                route.getRequest().params = match.slice(1).map(function (slug) {
+                    return slug || '/';
+                });
+				chain.push(layer);
 			}
 
 		});
