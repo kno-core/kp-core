@@ -3,3 +3,4 @@ app/node_modules/**
 **.sass-cache
 app/secrets.json
 app/public/**
+**/db/**
