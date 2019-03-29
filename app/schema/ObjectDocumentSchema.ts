@@ -1,13 +1,13 @@
 import {BlockSchema} from "./BlockSchema";
 
 export class ObjectDocumentSchema {
-	public _id;
-	public type;
-	private created;
+	public _id: string;
+	public type: string;
+	private created: number;
 	public fields: Array<BlockSchema>;
-	public rows;
+	public rows: Array<ObjectDocumentSchema>;
 
-	constructor(incoming?) {
+	constructor(incoming?: any) {
 
 		incoming = incoming || {};
 		this._id = incoming._id || undefined;
@@ -17,13 +17,13 @@ export class ObjectDocumentSchema {
 
 	}
 
-	find(search) {
+	find(search: any) {
 		return new Promise(function (resolve) {
 			resolve([]);
 		});
 	}
 
-	factory(incoming){
+	factory(incoming: any) {
 		return new ObjectDocumentSchema(incoming);
 	}
 }

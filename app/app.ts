@@ -22,7 +22,9 @@ app.use('/', function (route: Route) {
 	return new Promise(function (resolve, reject) {
 		route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 		route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
-		route.enqueueBody(`<div class="hero bg-primary"><div class="container"><h1>k ( kp-core )</h1><p>the last framework you'll need; for your content; for now;</p></div></div><div class="container"><h2>Welcome Home</h2><p>Multi site, multi template, multi page, multi user, multi group, multi product;<br />One place.</p></div>`);
+		route.enqueueHead(`<script src="https://unpkg.com/feather-icons"></script>`);
+		route.enqueueBody(`<div class="hero bg-primary"><div class="container"><i data-feather="coffee"></i><h1>k ( kp-core )</h1><p>20 minutes and a drink of coffee;</p></div></div><div class="container"><h2>Welcome Home</h2><ul><li>Multi site</li><li>multi template</li><li>multi page</li><li>multi user</li><li>multi group</li><li>multi product</li></ul><br /><p>One place.</p></div>`);
+		route.enqueueScript(`feather.replace()`);
 		resolve();
 	});
 

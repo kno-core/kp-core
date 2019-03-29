@@ -4,6 +4,10 @@ import {Route} from "../lib/Route";
 import {readFileSync} from "fs";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 import {BlockSchema} from "../schema/BlockSchema";
+import {TypescriptCompiler} from "../lib/TypescriptCompiler";
+
+const tsc = new TypescriptCompiler();
+
 
 interface CollectionInterface {
 
@@ -99,10 +103,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 		for (var prop in self.collections) {
 			if (self.collections.hasOwnProperty(prop)) {
-
 				let col = self.collections[prop];
-				console.log('schema', col);
-
 				app.use(`/collections/get/${col.type}`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 						route.getResponse().end(JSON.stringify(col));
@@ -115,9 +116,12 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
-						route.enqueueScript(readFileSync('./controller/Editor.js').toString());
-						route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}"></div></div>`);
-						resolve();
+						//route.enqueueScript(readFileSync('./controller/Editor.js').toString());
+						tsc.compile('./controller/Editor.ts').then(function (compiled) {
+							route.enqueueScript(compiled);
+							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}"></div></div>`);
+							resolve();
+						});
 					});
 				});
 			}

@@ -13,6 +13,12 @@
 .hero {
   padding: 36px 0; }
 
+.hero svg {
+  height: 54px;
+  width: 36px;
+  line-height: 54px;
+  padding-top: 18px; }
+
 .bg-primary {
   background-color: #0081f5;
   color: #fff; }
@@ -32,6 +38,12 @@ input[type=submit].primary:active, button.primary:active {
   color: #0081f5;
   background-color: #bce1ff;
   cursor: pointer; }
+
+ul, ol {
+  margin-left: 18px; }
+
+li {
+  line-height: 36px; }
 
 select {
   padding-right: 56px;

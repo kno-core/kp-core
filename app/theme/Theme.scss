@@ -11,11 +11,16 @@
 
 #message-queue input {
   background: #fff;
-  //z-index: 99;
 }
 
 .hero {
   padding: $leading*2 0;
+}
+.hero svg {
+  height: $leading*3;
+  width: $leading*2;
+  line-height: $leading*3;
+  padding-top: $leading * 1;
 }
 
 .bg-primary {
@@ -40,6 +45,13 @@ input[type=submit].primary:active, button.primary:active {
   color: #0081f5;
   background-color: #bce1ff;
   cursor: pointer;
+}
+
+ul, ol {
+  margin-left: $leading * 1;
+}
+li {
+  line-height: $leading*2;
 }
 
 select {
