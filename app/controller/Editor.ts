@@ -1,6 +1,7 @@
 import {TextBlock} from "../schema/TextBlock";
 import {BlockInterface} from "../schema/BlockInterface";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
+import {FieldSchema} from "../schema/FieldSchema";
 
 class Editor {
 
@@ -58,8 +59,12 @@ class Editor {
 				self.save();
 			};
 			controls.appendChild(save_btn);
-
 			self.element.appendChild(controls);
+
+			self.collection.fields.forEach(function (field:any) {
+				field.eventHandler();
+			});
+
 			resolve();
 		});
 	}

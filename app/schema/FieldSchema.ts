@@ -1,5 +1,6 @@
 import {BlockInterface} from "./BlockInterface";
 import {BlockPropertiesInterface} from "./BlockPropertiesInterface";
+import {TextBlock} from "./TextBlock";
 
 export class FieldSchema implements BlockInterface {
 	public type: string;
