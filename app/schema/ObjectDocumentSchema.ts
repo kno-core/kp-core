@@ -8,10 +8,13 @@ export class ObjectDocumentSchema {
 	public rows: Array<ObjectDocumentSchema>;
 
 	constructor(incoming?: any) {
-
+let self = this;
 		this._id = incoming._id || undefined;
 		this.type = incoming.type || 'document';
 		this.fields = incoming.fields || [];
+		this.fields.forEach(function(field,index){
+			self.fields[index] = new FieldSchema(field);
+		});
 		this.created = incoming.created || Date.now();
 
 	}

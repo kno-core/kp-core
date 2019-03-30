@@ -91,13 +91,28 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		app.use(`/collections/get/`, function (route: Route) {
 			return new Promise(function (resolve, reject) {
 				let cols = [];
+				let promises = [];
 				for (var col in self.collections) {
 					if (self.collections.hasOwnProperty(col)) {
-						cols.push(self.collections[col]);
+						let collection = Object.assign({},self.collections[col]);
+						collection.rows = [];
+
+						promises.push(new Promise(function(resolve){
+							app.DB().search('kino', collection.type,{},50,function(e,r){
+							console.log(e,r);
+								collection.rows=collection.rows.concat(r);
+								resolve();
+							});
+						}));
+						cols.push(collection);
 					}
 				}
-				route.getResponse().end(JSON.stringify(cols));
-				resolve();
+
+				Promise.all(promises).then(function(){
+					console.log(cols);
+					route.getResponse().end(JSON.stringify(cols));
+					resolve();
+				});
 			});
 		});
 
@@ -126,6 +141,59 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				});
 			}
 		}
+
+		app.use(`/collections/post/`, function (route: Route) {
+
+			let request = route.getRequest();
+			let body = [];
+			let final = '';
+
+			return new Promise(function (resolve, reject) {
+
+
+				if (!request.body){
+					resolve();
+					return;
+				}
+
+				try {
+					console.log(request.body);
+					let thread =request.body || {};
+
+					if (thread._id) {
+						thread._id = require("mongoose").Types.ObjectId(thread._id);
+					}
+					//let f = thread.fields;
+					//delete thread.fields;
+					//delete thread.blocks;
+					//f.forEach(function (item) {
+				//		thread[item.name] = item.value;
+				//	});
+
+					app.DB().search('kino', thread.type, {"_id": thread._id}, 2, function (e, r) {
+						if (r.length > 0) {
+							app.DB().update('kino', thread.type, {"_id": thread._id}, thread, function (e2, r2) {
+								//route.enqueueBody('UPDATED');
+								console.log('updated', r2);
+								route.getResponse().end(JSON.stringify({"msg": "Updated", "schema": thread}));
+								resolve('UPDATED');
+							});
+						} else {
+							thread.created = Date.now();
+							app.DB().save('kino', thread.type, thread, function (e2, r2) {
+								//route.enqueueBody('SAVED');
+								console.log("SAVED", r2);
+								route.getResponse().end(JSON.stringify({"msg": "Saved", "schema": thread}));
+								resolve('SAVED');
+							});
+						}
+					});
+
+				} catch (e) {
+					console.error(e);
+				}
+			})
+		});
 	}
 
 	define(collection: string, schema: ObjectDocumentSchema) {

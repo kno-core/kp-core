@@ -28,16 +28,21 @@ class Editor {
 						self.collection.fields[index] = new TextBlock(field);
 					});
 					console.log(self.collection);
-					self.getHTML().then(function (html) {
-						self.element.innerHTML = html;
-						return self.attachHandlers();
-					})
+					self.render();
 				}
 			}
 		};
 
 		xhr.send(null);
 
+	}
+
+	render(){
+		let self=this;
+		self.getHTML().then(function (html) {
+			self.element.innerHTML = html;
+			return self.attachHandlers();
+		})
 	}
 
 	attachHandlers(): Promise<any> {
@@ -100,25 +105,28 @@ class Editor {
 			if (xmlhttp.readyState === xmlhttp.DONE) {
 				if (xmlhttp.status === 200) {
 					let resp = JSON.parse((xmlhttp.responseText));
+
+					console.log(resp);
+					if (resp.schema) {
+						console.log('got back',resp.schema);
+						self.collection = new ObjectDocumentSchema(resp.schema);
+						self.render();
+					}
+
 					let msg_queue = document.getElementById('message-queue');
 					if (msg_queue) {
 						let el = document.createElement('div');
 						//	el.className = "flex";
-						if (resp.schema) {
-							console.log(resp.schema);
-							self.collection = new ObjectDocumentSchema(resp.schema);
-							self.getHTML();
-						}
 						el.innerHTML = `<div class="container"><span onclick="this.parentNode.removeChild(this);"><input type="text" value="${resp.msg}" readonly/></span></div>`;
 						msg_queue.appendChild(el);
 					}
 				}
 			}
 		};
-		let payload: any = {fields: []};
+		/*let payload: any = {fields: []};
 		self.collection.fields.forEach(function (block: any) {
 			payload.fields.push(block.serialize());
-		});
+		});*/
 		/*if (self.blocks) {
 			payload["blocks"] = [];
 		}
@@ -126,10 +134,10 @@ class Editor {
 			payload.blocks.push(block.serialize());
 		});*/
 
-		if (self.collection["_id"]) {
+		/*if (self.collection["_id"]) {
 			payload["_id"] = self.collection["_id"];
-		}
-		xmlhttp.send(JSON.stringify(payload));
+		}*/
+		xmlhttp.send(JSON.stringify(self.collection));
 
 	}
 
