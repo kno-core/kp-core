@@ -112,6 +112,8 @@ input[type='text'], input[type='password'], input[type='email'], input[type=subm
 
 label {
   font-size: $base_font_size;
+  margin-bottom: $leading * 0.5;
+  display:inline-block;
 }
 
 iframe {

@@ -1,15 +1,14 @@
-import {BlockSchema} from "./BlockSchema";
+import {FieldSchema} from "./FieldSchema";
 
 export class ObjectDocumentSchema {
 	public _id: string;
 	public type: string;
 	private created: number;
-	public fields: Array<BlockSchema>;
+	public fields: Array<FieldSchema>;
 	public rows: Array<ObjectDocumentSchema>;
 
 	constructor(incoming?: any) {
 
-		incoming = incoming || {};
 		this._id = incoming._id || undefined;
 		this.type = incoming.type || 'document';
 		this.fields = incoming.fields || [];
@@ -23,7 +22,8 @@ export class ObjectDocumentSchema {
 		});
 	}
 
-	factory(incoming: any) {
-		return new ObjectDocumentSchema(incoming);
+	factory() {
+		console.log('factory me', this.type);
+		return new ObjectDocumentSchema(this);
 	}
 }

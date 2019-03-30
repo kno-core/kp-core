@@ -87,7 +87,9 @@ input[type='text'], input[type='password'], input[type='email'], input[type=subm
   line-height: 18px; }
 
 label {
-  font-size: 14px; }
+  font-size: 14px;
+  margin-bottom: 9px;
+  display: inline-block; }
 
 iframe {
   width: 100%;

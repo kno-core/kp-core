@@ -1,20 +1,21 @@
 import {BlockInterface} from "./BlockInterface";
+import {BlockPropertiesInterface} from "./BlockPropertiesInterface";
 
-export class BlockSchema implements BlockInterface {
+export class FieldSchema implements BlockInterface {
 	public type: string;
 	public name: string;
 	public value?: any;
 	public created?: number;
 	public last_modified?: number;
 
-	constructor(block?: any) {
+	constructor(fieldblock?: any) {
 
-		block = block || {};
-		this.type = block.type || '';
-		this.name = block.name || 'untitled';
-		this.value = block.value || '';
-		this.created = block.created || Date.now();
-		this.last_modified = block.last_modified || this.created;
+		fieldblock = fieldblock || {};
+		this.type = fieldblock.type || '';
+		this.name = fieldblock.name || 'Block';
+		this.value = fieldblock.value || '';
+		this.created = fieldblock.created || Date.now();
+		this.last_modified = fieldblock.last_modified || this.created;
 
 	}
 
@@ -37,5 +38,15 @@ export class BlockSchema implements BlockInterface {
 		return new Promise(function (resolve, reject) {
 			resolve(self.value);
 		});
+	}
+
+	serialize() {
+		return {
+			type: this.type,
+			name: this.name,
+			value: this.value,
+			created: this.created,
+			last_modified: this.last_modified
+		}
 	}
 }

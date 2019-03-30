@@ -10,7 +10,12 @@
   "exclude": [
 	"node_modules"
   ],
+  "lib": [
+	"es6",
+	"ES2015"
+  ],
   "typeRoots": [
-	"node_modules/@types"
+	"node_modules/@types",
+	"@types/es6-shim"
   ]
 }

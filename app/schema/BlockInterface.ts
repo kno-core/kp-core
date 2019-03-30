@@ -1,10 +1,6 @@
-export interface BlockInterface {
-	type: string;
-	name: string;
-	value?: any;
-	created?: number;
-	last_modified?: number;
+import {BlockPropertiesInterface} from "./BlockPropertiesInterface";
 
+export interface BlockInterface extends BlockPropertiesInterface {
 	edit(): Promise<string>;
 	view(): Promise<string>;
 	getValue(): Promise<any>;

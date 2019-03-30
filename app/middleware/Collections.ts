@@ -3,7 +3,7 @@ import {Core} from "../lib/Core";
 import {Route} from "../lib/Route";
 import {readFileSync} from "fs";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
-import {BlockSchema} from "../schema/BlockSchema";
+import {FieldSchema} from "../schema/FieldSchema";
 import {TypescriptCompiler} from "../lib/TypescriptCompiler";
 
 const tsc = new TypescriptCompiler();
@@ -32,7 +32,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		this.define("User", new ObjectDocumentSchema(
 			{
 				"type": "User", fields: [
-					new BlockSchema({"name": "username", "type": "text"})
+					new FieldSchema({"name": "username", "type": "text"})
 				]
 			}));
 
@@ -40,41 +40,41 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			{
 				"type": "Site",
 				fields: [
-					new BlockSchema({"name": "title", "type": "text"}),
-					new BlockSchema({"name": "url", "type": "text"})
+					new FieldSchema({"name": "title", "type": "text"}),
+					new FieldSchema({"name": "url", "type": "text"})
 				]
 			}));
 
 		this.define("Page", new ObjectDocumentSchema({
 			"type": "Page",
 			fields: [
-				new BlockSchema({"name": "title", "type": "text"}),
-				new BlockSchema({"name": "slug", "type": "text"})
+				new FieldSchema({"name": "title", "type": "text"}),
+				new FieldSchema({"name": "slug", "type": "text"})
 			]
 		}));
 
 		this.define("Image", new ObjectDocumentSchema({
 			"type": "Image",
 			fields: [
-				new BlockSchema({"name": "title", "type": "text"}),
-				new BlockSchema({"name": "slug", "type": "text"})
+				new FieldSchema({"name": "title", "type": "text"}),
+				new FieldSchema({"name": "slug", "type": "text"})
 			]
 		}));
 
 		this.define("Template", new ObjectDocumentSchema({
 			"type": "Template",
 			fields: [
-				new BlockSchema({"name": "title", "type": "text"}),
-				new BlockSchema({"name": "css", "type": "code"}),
-				new BlockSchema({"name": "javascript", "type": "code"}),
-				new BlockSchema({"name": "html", "type": "code"})
+				new FieldSchema({"name": "title", "type": "text"}),
+				new FieldSchema({"name": "css", "type": "code"}),
+				new FieldSchema({"name": "javascript", "type": "code"}),
+				new FieldSchema({"name": "html", "type": "code"})
 			]
 		}));
 
 		this.define("Comment", new ObjectDocumentSchema({
 			"type": "Comment",
 			fields: [
-				new BlockSchema({"name": "text", "type": "text"})
+				new FieldSchema({"name": "text", "type": "text"})
 			]
 		}));
 
