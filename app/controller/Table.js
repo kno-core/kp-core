@@ -25,8 +25,10 @@
 			let self = this;
 			new Promise(function (resolve, reject) {
 
+
+				let col = self.collections[self._collection];
 				let str = [];
-				let width = self.collections[self._collection].fields.length;
+				let width = col.fields.length;
 
 				if (self.collections.length > 1) {
 					let options = [];
@@ -36,27 +38,28 @@
 					str.push(`<tr><td colspan="${width}"><span class="select-wrapper"><select id="select-collection">${options.join('')}</select></span> <a href="/collections/${self.collections[self._collection].type}/"><button class="primary">Create New ${self.collections[self._collection].type}</button></a></td></tr>`);
 				}
 
-
-
 				str.push(`<tr>`);
-				self.collections[self._collection].fields.forEach(function (field) {
+				col.fields.forEach(function (field) {
 
 					str.push(`<td>${field.name}</td>`);
 
 				});
+				str.push(`<td>controls</td>`);
+
 				str.push(`</tr>`);
 
 
-				if (self.collections[self._collection].rows) {
-					self.collections[self._collection].rows.forEach(function (row) {
+				if (col.rows) {
+					col.rows.forEach(function (row) {
 						str.push(`<tr>`);
 						row.fields.forEach(function (field) {
 							str.push(`<td>${field.value}</td>`);
 						});
+						str.push(`<td><a href="./${col.type}/${row._id||''}">edit</a></td>`);
 						str.push(`</tr>`);
+
 					});
 				}
-
 
 				resolve(str.join(''));
 

@@ -109,7 +109,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				}
 
 				Promise.all(promises).then(function(){
-					console.log(cols);
+					//console.log(cols);
 					route.getResponse().end(JSON.stringify(cols));
 					resolve();
 				});
@@ -119,22 +119,38 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		for (var prop in self.collections) {
 			if (self.collections.hasOwnProperty(prop)) {
 				let col = self.collections[prop];
-				app.use(`/collections/get/${col.type}`, function (route: Route) {
+				app.use(`/collections/get/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
-						route.getResponse().end(JSON.stringify(col));
-						resolve();
+						let req = route.getRequest();
+						if (req.params[0] !== '/'){
+							console.log('geTTing', req.params);
+							app.DB().search('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},50,function(e,r){
+								console.log(e,r);
+								if (e){
 
+								}else{
+									route.getResponse().end(JSON.stringify(r[0]));
+								}
+								//console.log(e,r);
+								//collection.rows=collection.rows.concat(r);
+								resolve();
+							});
+						}else{
+							route.getResponse().end(JSON.stringify(col));
+							resolve();
+						}
 					});
 				});
 
-				app.use(`/collections/${col.type}/?([a-f0-9]{24})?`, function (route: Route) {
+				app.use(`/collections/${col.type}/([a-f0-9]{24})?/?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
 						//route.enqueueScript(readFileSync('./controller/Editor.js').toString());
 						tsc.compile('./controller/Editor.ts').then(function (compiled) {
 							route.enqueueScript(compiled);
-							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}"></div></div>`);
+							let req = route.getRequest();
+							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
 							resolve();
 						});
 					});

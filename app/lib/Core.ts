@@ -46,7 +46,9 @@ export class Core implements StackInterface, ProviderInterface {
 		this.stack.forEach(function (layer) {
 
 			let match = route.getRequest().url.match(layer.route);
+
 			if (match) {
+				console.log(layer.route,match);
                 route.getRequest().params = match.slice(1).map(function (slug) {
                     return slug || '/';
                 });

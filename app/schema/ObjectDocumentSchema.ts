@@ -4,7 +4,7 @@ import {TextBlock} from "./TextBlock";
 export class ObjectDocumentSchema {
 	public _id: string;
 	public type: string;
-	private created: number;
+	public created: number;
 	public fields: Array<FieldSchema>;
 	public rows: Array<ObjectDocumentSchema>;
 
@@ -14,21 +14,22 @@ export class ObjectDocumentSchema {
 		this.type = incoming.type || 'document';
 		this.fields = incoming.fields || [];
 		this.fields.forEach(function (field, index) {
-			let schema:any = null;
-			//self.fields[index] = new FieldSchema(field);
-				switch (field.type) {
-					case "text":
-						schema = TextBlock;break;
-						default:
-						schema = FieldSchema;break;
-				}
-
-			if (schema){
+			let schema: any = null;
+			switch (field.type) {
+				case "text":
+					schema = TextBlock;
+					break;
+				default:
+					schema = FieldSchema;
+					break;
+			}
+			if (schema) {
 				self.fields[index] = new schema(field);
+			} else {
+				console.warn(field, incoming, 'Unhandled schema / field type');
 			}
 		});
 		this.created = incoming.created || Date.now();
-
 	}
 
 	find(search: any) {
@@ -39,6 +40,8 @@ export class ObjectDocumentSchema {
 
 	factory() {
 		console.log('factory me', this.type);
-		return new ObjectDocumentSchema(this);
+		let ob = Object.apply({}, this);
+		ob.created = Date.now();
+		return new ObjectDocumentSchema(ob);
 	}
 }

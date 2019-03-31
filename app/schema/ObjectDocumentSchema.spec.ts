@@ -21,11 +21,19 @@ describe('ObjectDocumentSchema', () => {
 	});
 
 	it('should return a blank from factory with no params', function (done) {
-		let doc2 = doc.factory();
-		console.log(doc2);
-		expect(doc2.type).to.equal("TestSchema");
-		expect(doc2.fields.length).to.equal(2);
-		done();
+		let timeout = 500;
+
+		setTimeout(function(){
+			let doc2 = doc.factory();
+			console.log(doc2);
+			expect(doc2.type).to.equal("TestSchema");
+			console.log('time diff',doc2.created - doc.created);
+			expect(doc2.created).to.be.above((doc.created+timeout)-1);
+			expect(doc2.fields.length).to.equal(2);
+			done();
+
+		},timeout);
+
 	});
 
 	it('should return initialize with a MongoClientDBStream', function (done) {
