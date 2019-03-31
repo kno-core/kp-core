@@ -10,6 +10,8 @@ export interface DatabaseInterface {
 
 	save(databaseName: string, collection: string, item, callback);
 
+	remove(databaseName:string, collection:string, search, callback);
+
 	update(databaseName: string, collection: string, search, item, callback);
 
 	search(databaseName: string, collection: string, search, count, callback);

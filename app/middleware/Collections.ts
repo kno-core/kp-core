@@ -142,6 +142,28 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					});
 				});
 
+				app.use(`/collections/remove/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
+					return new Promise(function (resolve, reject) {
+						let req = route.getRequest();
+						if (req.params[0] !== '/'){
+							console.log('geTTing', req.params);
+							app.DB().remove('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},function(e,r){
+								console.log(e,r);
+								if (e){
+
+								}else{
+									route.enqueueScript(`window.location = "/collections/";`);
+									//route.getResponse().end(JSON.stringify(r[0]));
+								}
+								resolve();
+							});
+						}else{
+							route.getResponse().end(JSON.stringify(col));
+							resolve();
+						}
+					});
+				});
+
 				app.use(`/collections/${col.type}/([a-f0-9]{24})?/?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());

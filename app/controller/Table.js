@@ -55,7 +55,7 @@
 						row.fields.forEach(function (field) {
 							str.push(`<td>${field.value}</td>`);
 						});
-						str.push(`<td><a href="./${col.type}/${row._id||''}">edit</a></td>`);
+						str.push(`<td><a href="./${col.type}/${row._id||''}">edit</a><a href="./remove/${col.type}/${row._id||''}">remove</a></td>`);
 						str.push(`</tr>`);
 
 					});
