@@ -7,10 +7,10 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 
 	constructor(block?: any) {
 		super(block);
-		this._handler_id = ((Math.random() * 99999999.99999999) | 0).toString(16);
 	}
 
 	edit(): Promise<string> {
+		this._handler_id = ((Math.random() * 99999999.99999999) | 0).toString(16);
 		let self = this;
 		return new Promise(function (resolve, reject) {
 			self.getValue().then(function (value) {

@@ -78,6 +78,19 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			]
 		}));
 
+		app.use(`/collections/?(.*)?`, function (route: Route) {
+			return new Promise(function (resolve, reject) {
+				if (app.IAM().isAuthenticated(route)) {
+					route.enqueueBody(JSON.stringify(app.IAM().getUser(route)));
+					//route.enqueueBody(`<br /><a href='/logout/'>Logout</a>`)
+					resolve();
+				}else{
+					route.enqueueScript(`window.location = '/login/';`);
+					reject();
+				}
+
+			});
+		});
 		app.use(`/collections/`, function (route: Route) {
 			return new Promise(function (resolve, reject) {
 				route.enqueueStyle(readFileSync('./theme/Default.css').toString());
