@@ -1,6 +1,7 @@
 import {Database} from "./Database";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 import {RouteInterface} from "./RouteInterface";
+import {FieldSchema} from "../schema/FieldSchema";
 
 export class Authenticator {
 
@@ -22,11 +23,10 @@ export class Authenticator {
 		return route.getRequest().session.passport.user||false;
 	}
 
-	public findOrCreate(search: any): Promise<ObjectDocumentSchema> {
+	public findOrCreate(search: any, doc:ObjectDocumentSchema): Promise<ObjectDocumentSchema> {
 		let self = this;
 		return new Promise(function (resolve, reject) {
-			self.db.findOrCreate('kino', 'User', search || {}, function (err, res) {
-				console.log('FIND OR CREATE 0', err, res);
+			self.db.findOrCreate('kino', 'User', search || {}, doc,function (err, res) {
 				resolve(res);
 			})
 		});
@@ -56,6 +56,16 @@ export class Authenticator {
 
 	public static checkToken(token: string) {
 		return token.length === 128 && /^([a-f0-9]{128})$/.test(token);
+	}
+
+	getUserSchema(){
+		return new ObjectDocumentSchema(
+			{
+				"type": "User", fields: [
+					new FieldSchema({"name": "username", "type": "text"}),
+					new FieldSchema({"name": "githubId", "type": "text"})
+				]
+			})
 	}
 
 }

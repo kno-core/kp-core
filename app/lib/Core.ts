@@ -17,7 +17,6 @@ export class Core implements StackInterface, ProviderInterface {
 
 	constructor() {
 		this.stack = [];
-
 		this.db = new Database();
 
 		let mongo_db_stream = new MongoDB('kino', function () {});
@@ -44,17 +43,13 @@ export class Core implements StackInterface, ProviderInterface {
 
 		let chain: Array<Layer> = [];
 		this.stack.forEach(function (layer) {
-
 			let match = route.getRequest().url.match(layer.route);
-
 			if (match) {
-				console.log(layer.route,match);
                 route.getRequest().params = match.slice(1).map(function (slug) {
                     return slug || '/';
                 });
 				chain.push(layer);
 			}
-
 		});
 
 		return new Promise(function (resolve, reject) {
@@ -64,7 +59,6 @@ export class Core implements StackInterface, ProviderInterface {
 					layer.fn(route).then(function () {
 						process();
 					}).catch(function () {
-						console.log(layer);
 						route.getResponse().end(`CHAIN FAILED`);
 						reject();
 					});

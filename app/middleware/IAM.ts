@@ -20,8 +20,9 @@ export class IAM implements MiddlewareInterface {
 
 			return new Promise(function (resolve, reject) {
 				if (app.IAM().isAuthenticated(route)) {
-					route.enqueueBody(JSON.stringify(app.IAM().getUser(route)));
-					route.enqueueBody(`<br /><a href='/logout/'>Logout</a>`)
+					route.enqueueStyle(readFileSync('./theme/Default.css').toString());
+					route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
+					route.enqueueBody(`<div class="container"><h1>Profile</h1><p>${JSON.stringify(app.IAM().getUser(route))}</p><a href='/logout/'>Logout</a></div>`)
 				}else{
 					route.enqueueScript(`window.location = '/login/';`);
 				}
@@ -38,7 +39,7 @@ export class IAM implements MiddlewareInterface {
 				if (app.IAM().isAuthenticated(route)) {
 					route.enqueueScript(`window.location = '/profile/';`);
 				} else {
-					route.enqueueBody(`<h1>Login</h1><p><ul><li><a href="/auth/github/">Login with Github</a></li></ul></p>`);
+					route.enqueueBody(`<div class="container"><h1>Login</h1><p><ul><li><a href="/auth/github/">Login with Github</a></li></ul></p></div>`);
 				}
 				resolve();
 			});

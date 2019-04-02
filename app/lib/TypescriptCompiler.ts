@@ -17,7 +17,6 @@ export class TypescriptCompiler {
 				resolve(self.cache[fileName]);
 				return;
 			}
-			console.log('COMPILINGING');
 			execSync('rm -f -r tmp').toString();
 			execSync('mkdir tmp && cd tmp').toString();
 			writeFileSync('./tmp/tsconfig.json', `{

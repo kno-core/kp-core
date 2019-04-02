@@ -14,7 +14,6 @@
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
 					self.collections = (JSON.parse(xhr.responseText));
-					console.log(self.collections);
 					self.render();
 				}
 			}

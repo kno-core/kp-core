@@ -36,16 +36,17 @@ export class Database implements DatabaseInterface {
 
 	}
 
-	public findOrCreate(databaseName: string, collection: string, search, callback) {
+	public findOrCreate(databaseName: string, collection: string, search, doc, callback) {
 		let self = this;
 		if (this._databaseInMemory[databaseName]) {
 			this._databaseInMemory[databaseName].search(collection, search, 1, function (err, res) {
-				console.log("find or create SEARCH RESULT",err, res, search);
 				if (!err || !res || res.length === 0) {
-					self._databaseInMemory[databaseName].save(collection, search, function(err2, res2){
-						self._databaseInMemory[databaseName].search(collection, search, 1, callback);
+					self._databaseInMemory[databaseName].save(collection, doc, function (err2, res2) {
+						self._databaseInMemory[databaseName].search(collection, search, 1, function (err3, res3) {
+							callback(err3, res3);
+						});
 					});
-				}else{
+				} else {
 					callback(err, res);
 				}
 

@@ -29,12 +29,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		let self = this;
 		this.collections = {};
 
-		this.define("User", new ObjectDocumentSchema(
-			{
-				"type": "User", fields: [
-					new FieldSchema({"name": "username", "type": "text"})
-				]
-			}));
+		this.define("User", app.IAM().getUserSchema());
 
 		this.define("Site", new ObjectDocumentSchema(
 			{
@@ -81,14 +76,11 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		app.use(`/collections/?(.*)?`, function (route: Route) {
 			return new Promise(function (resolve, reject) {
 				if (app.IAM().isAuthenticated(route)) {
-					route.enqueueBody(JSON.stringify(app.IAM().getUser(route)));
-					//route.enqueueBody(`<br /><a href='/logout/'>Logout</a>`)
 					resolve();
 				}else{
 					route.enqueueScript(`window.location = '/login/';`);
 					reject();
 				}
-
 			});
 		});
 		app.use(`/collections/`, function (route: Route) {
@@ -112,7 +104,6 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 						promises.push(new Promise(function(resolve){
 							app.DB().search('kino', collection.type,{},50,function(e,r){
-							console.log(e,r);
 								collection.rows=collection.rows.concat(r);
 								resolve();
 							});
@@ -122,7 +113,6 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				}
 
 				Promise.all(promises).then(function(){
-					//console.log(cols);
 					route.getResponse().end(JSON.stringify(cols));
 					resolve();
 				});
@@ -136,16 +126,11 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return new Promise(function (resolve, reject) {
 						let req = route.getRequest();
 						if (req.params[0] !== '/'){
-							console.log('geTTing', req.params);
 							app.DB().search('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},50,function(e,r){
-								console.log(e,r);
 								if (e){
-
 								}else{
 									route.getResponse().end(JSON.stringify(r[0]));
 								}
-								//console.log(e,r);
-								//collection.rows=collection.rows.concat(r);
 								resolve();
 							});
 						}else{
@@ -159,14 +144,10 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return new Promise(function (resolve, reject) {
 						let req = route.getRequest();
 						if (req.params[0] !== '/'){
-							console.log('geTTing', req.params);
 							app.DB().remove('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},function(e,r){
-								console.log(e,r);
 								if (e){
-
 								}else{
 									route.enqueueScript(`window.location = "/collections/";`);
-									//route.getResponse().end(JSON.stringify(r[0]));
 								}
 								resolve();
 							});
@@ -181,7 +162,6 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
-						//route.enqueueScript(readFileSync('./controller/Editor.js').toString());
 						tsc.compile('./controller/Editor.ts').then(function (compiled) {
 							route.enqueueScript(compiled);
 							let req = route.getRequest();
@@ -201,39 +181,27 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 			return new Promise(function (resolve, reject) {
 
-
 				if (!request.body){
 					resolve();
 					return;
 				}
 
 				try {
-					console.log(request.body);
-					let thread =request.body || {};
+					let thread = request.body || {};
 
 					if (thread._id) {
 						thread._id = require("mongoose").Types.ObjectId(thread._id);
 					}
-					//let f = thread.fields;
-					//delete thread.fields;
-					//delete thread.blocks;
-					//f.forEach(function (item) {
-				//		thread[item.name] = item.value;
-				//	});
 
 					app.DB().search('kino', thread.type, {"_id": thread._id}, 2, function (e, r) {
 						if (r.length > 0) {
 							app.DB().update('kino', thread.type, {"_id": thread._id}, thread, function (e2, r2) {
-								//route.enqueueBody('UPDATED');
-								console.log('updated', r2);
 								route.getResponse().end(JSON.stringify({"msg": "Updated", "schema": thread}));
 								resolve('UPDATED');
 							});
 						} else {
 							thread.created = Date.now();
 							app.DB().save('kino', thread.type, thread, function (e2, r2) {
-								//route.enqueueBody('SAVED');
-								console.log("SAVED", r2);
 								route.getResponse().end(JSON.stringify({"msg": "Saved", "schema": thread}));
 								resolve('SAVED');
 							});

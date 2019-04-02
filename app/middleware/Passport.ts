@@ -21,11 +21,10 @@ export class Passport implements MiddlewareInterface {
 
 		var GitHubStrategy = require('passport-github').Strategy;
 
-		passport.use(new GitHubStrategy(JSON.parse(readFileSync("./secrets.json",'utf8'))["passport"]["github"],
+		passport.use(new GitHubStrategy(JSON.parse(readFileSync("./secrets.json", 'utf8'))["passport"]["github"],
 			function (accessToken, refreshToken, profile, cb) {
-
-				app.IAM().findOrCreate({githubId: profile.id}).then(function (res) {
-					console.log('USER', refreshToken, accessToken, profile, cb);
+				let doc = app.IAM().getUserSchema().factoryFromFlatObjectAsFields({githubId: profile.id});
+				app.IAM().findOrCreate({"fields.name": "githubId", "fields.value": profile.id}, doc).then(function (res) {
 					return cb(false, res);
 				});
 			}
@@ -52,7 +51,7 @@ export class Passport implements MiddlewareInterface {
 		app.use('/callback/auth/github/?(.+)?', function (route: RouteInterface) {
 			return new Promise(function (resolve, reject) {
 				passport.authenticate('github', {failureRedirect: '/login/'})(route.getRequest(), route.getResponse(), function () {
-						/// GOOD AUTH SHOUDL REDIRECT
+					/// GOOD AUTH SHOUDL REDIRECT
 					route.enqueueScript("window.location = '/profile/';");
 					resolve();
 				});

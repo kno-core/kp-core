@@ -38,10 +38,18 @@ export class ObjectDocumentSchema {
 		});
 	}
 
+	factoryFromFlatObjectAsFields(input:any){
+
+		let ob = this.factory();
+		ob.fields.forEach(function(f, i){
+			ob.fields[i].value = input[f.name];
+		});
+		return ob;
+	}
+
 	factory() {
-		console.log('factory me', this.type);
-		let ob = Object.apply({}, this);
+		let ob = Object.assign({}, this);
 		ob.created = Date.now();
-		return new ObjectDocumentSchema(ob);
+		return (new ObjectDocumentSchema(ob));
 	}
 }
