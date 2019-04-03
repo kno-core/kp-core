@@ -106,6 +106,9 @@ iframe {
 .edit-title {
   margin-bottom: 9px; }
 
+.edit-window {
+  position: relative; }
+
 .muted {
   color: #aaa; }
 

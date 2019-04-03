@@ -1,5 +1,6 @@
 import {FieldSchema} from "./FieldSchema";
 import {TextBlock} from "./TextBlock";
+import {CodeBlock} from "./CodeBlock";
 
 export class ObjectDocumentSchema {
 	public _id: string;
@@ -18,6 +19,9 @@ export class ObjectDocumentSchema {
 			switch (field.type) {
 				case "text":
 					schema = TextBlock;
+					break;
+				case "code":
+					schema = CodeBlock;
 					break;
 				default:
 					schema = FieldSchema;
@@ -38,10 +42,10 @@ export class ObjectDocumentSchema {
 		});
 	}
 
-	factoryFromFlatObjectAsFields(input:any){
+	factoryFromFlatObjectAsFields(input: any) {
 
 		let ob = this.factory();
-		ob.fields.forEach(function(f, i){
+		ob.fields.forEach(function (f, i) {
 			ob.fields[i].value = input[f.name];
 		});
 		return ob;

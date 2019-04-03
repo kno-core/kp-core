@@ -162,8 +162,10 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
+						route.enqueueStyle(readFileSync('./external/CodeHighlight.css').toString());
 						tsc.compile('./controller/Editor.ts').then(function (compiled) {
 							route.enqueueScript(compiled);
+							route.enqueueScript(readFileSync('./external/CodeHighlight.js').toString());
 							let req = route.getRequest();
 							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
 							resolve();

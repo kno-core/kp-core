@@ -1,0 +1,217 @@
+@import "../theme/Globals";
+
+/*
+pre{
+    color: #44435d;
+    font-family: 'Anonymous Pro', monospace;
+    background-color: #f8f8ff;
+    font-size:11pt;
+    margin: 10px 0;border-radius:4px;
+    white-space: pre-wrap;
+    white-space: -moz-pre-wrap;
+    white-space: -o-pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    outline:none;
+    padding: 2em;
+    width:100%;
+    display: block;
+}
+pre code .string {
+    color:#21d169;
+}
+pre code .number {
+    color:#6897DB;
+}
+pre code .special {
+    color:#fc3f9c;
+}
+pre code .special-js {
+    color:#d68ffc;
+}
+pre code .special-js-glob {
+    color:#A1E46D;
+    font-weight:bold;
+}
+pre code .special-comment{
+    color:#a09bb2;
+}
+pre code .special-js-meth {
+    color:#fda929;
+}
+pre code .special-html {
+    color:#E4D95F;
+}
+pre code .special-sql {
+    color:#1D968C;
+}
+pre code .special-php{
+    color:#597EA7;
+}*/
+
+@keyframes fade-in {
+  0% {
+	opacity: 0; }
+  100% {
+	opacity: 1; } }
+@keyframes fade {
+  10% {
+	transform: scale(1, 1); }
+  35% {
+	transform: scale(1, 1.7); }
+  40% {
+	transform: scale(1, 1.7); }
+  50% {
+	opacity: 1; }
+  60% {
+	transform: scale(1, 1); }
+  100% {
+	transform: scale(1, 1);
+	opacity: 0; } }
+[data-language] code.loading, [class^="lang"] code.loading, pre [data-language].loading, pre [class^="lang"].loading {
+  animation: none; }
+
+[data-language] code.rainbow-show, [class^="lang"] code.rainbow-show, pre [data-language].rainbow-show, pre [class^="lang"].rainbow-show {
+  opacity: 1; }
+
+pre {
+  position: relative;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word; }
+
+pre.loading .preloader div {
+  animation-play-state: running; }
+
+pre.loading .preloader div:nth-of-type(1) {
+  background: #0081f5;
+  animation: fade 1.5s 300ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(2) {
+  background: #5000f5;
+  animation: fade 1.5s 438ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(3) {
+  background: #9000f5;
+  animation: fade 1.5s 577ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(4) {
+  background: #f50419;
+  animation: fade 1.5s 715ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(5) {
+  background: #f57900;
+  animation: fade 1.5s 853ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(6) {
+  background: #f5e600;
+  animation: fade 1.5s 992ms linear infinite; }
+
+pre.loading .preloader div:nth-of-type(7) {
+  background: #00f50c;
+  animation: fade 1.5s 1130ms linear infinite; }
+
+pre .preloader {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+}
+
+pre .preloader div {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-right: 4px;
+  opacity: 0;
+  animation-play-state: paused;
+  animation-fill-mode: forwards; }
+
+pre {
+  border: 1px solid #ddd;
+  word-wrap: break-word;
+  padding: 6px 10px;
+  line-height: 19px;
+  margin-bottom: 20px;
+}
+
+pre code {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  min-height: $leading * 10;
+}
+
+code {
+  border: 1px solid #eaeaea;
+  margin: 0px 2px;
+  padding: 0px 5px;
+  font-size: 12px;
+  display: block;
+  outline: none; }
+
+pre, code {
+  color: #333;
+  background: #fefefe;
+  border-radius: 3px; }
+
+pre, pre code {
+  font-size: 13px; }
+
+pre .comment {
+  color: #1D8711; }
+
+pre .support {
+  color: #0086B3; }
+
+pre .tag, pre .tag-name {
+  color: navy; }
+
+pre .css-property, pre .css-value, pre .vendor-fix, pre .support.namespace {
+  color: #333; }
+
+pre .constant.numeric, pre .keyword.unit, pre .hex-color {
+  font-weight: normal;
+  color: #099; }
+
+pre .storage.type, pre .storage.function, pre .keyword {
+  color: #b309A1; }
+
+pre .entity.class {
+  color: #458; }
+
+pre .entity.id, pre .entity.function {
+  color: #900; }
+
+pre .attribute, pre .variable {
+  color: teal; }
+
+pre .string, pre .support.value {
+  font-weight: normal;
+  color: #d14; }
+
+pre .regexp {
+  color: #009926; }
+
+pre.edit-overlay {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  background: transparent;
+}
+
+pre.edit-overlay code {
+  color: rgba(0,0,0,0);
+  background: transparent;
+}
+
+input,
+textarea,
+[contenteditable] {
+  caret-color: #000;
+}
+
+/*# sourceMappingURL=CodeInput.css.map */

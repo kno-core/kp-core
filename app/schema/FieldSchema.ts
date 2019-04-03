@@ -41,6 +41,10 @@ export class FieldSchema implements BlockInterface {
 		});
 	}
 
+	eventHandler(){
+
+	}
+
 	serialize() {
 		return {
 			type: this.type,

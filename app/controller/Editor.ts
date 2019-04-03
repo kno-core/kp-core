@@ -24,10 +24,11 @@ class Editor {
 		xhr.onload = function () {
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
-					self.collection = (JSON.parse(xhr.responseText));
-					self.collection.fields.forEach(function (field: any, index: number) {
-						self.collection.fields[index] = new TextBlock(field);
-					});
+					self.collection = new ObjectDocumentSchema(JSON.parse(xhr.responseText));
+					//self.collection.forEach(function (field: any, index: number) {
+
+					//	self.collection.fields[index] = new TextBlock(field);
+					//});
 					self.render();
 				}
 			}
@@ -42,7 +43,9 @@ class Editor {
 		self.getHTML().then(function (html) {
 			self.element.innerHTML = html;
 			return self.attachHandlers();
-		})
+		}).catch(function (e) {
+			console.error('rejected', e);
+		});
 	}
 
 	attachHandlers(): Promise<any> {
@@ -60,7 +63,7 @@ class Editor {
 			controls.appendChild(save_btn);
 			self.element.appendChild(controls);
 
-			self.collection.fields.forEach(function (field: any) {
+			self.collection.fields.forEach(function (field: BlockInterface) {
 				field.eventHandler();
 			});
 
@@ -86,9 +89,6 @@ class Editor {
 				} else {
 
 					resolve(html.join(''));
-					//	self.attachHandlers().then(function (controls) {
-					//		resolve(html.join('') + controls);
-					//	});
 
 				}
 			}
@@ -110,6 +110,7 @@ class Editor {
 					let resp = JSON.parse((xmlhttp.responseText));
 					if (resp.schema) {
 						self.collection = new ObjectDocumentSchema(resp.schema);
+						console.log('got', self.collection);
 						self.render();
 					}
 					let msg_queue = document.getElementById('message-queue');
