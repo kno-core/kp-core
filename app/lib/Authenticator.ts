@@ -27,8 +27,9 @@ export class Authenticator {
 		let self = this;
 		return new Promise(function (resolve, reject) {
 			self.db.findOrCreate('kino', 'User', search || {}, doc,function (err, res) {
+				console.log('AUTH GOT',err, res);
 				resolve(res);
-			})
+			});
 		});
 	}
 
@@ -43,10 +44,6 @@ export class Authenticator {
 
 	public hasPermission(request) {
 		return true;
-	}
-
-	getForm() {
-		return "FORM";
 	}
 
 	public static generateToken(length: number): string {

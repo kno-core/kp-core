@@ -21,9 +21,9 @@
 		xhr.send(null);
 
 		this.render = function () {
-			let self = this;
-			new Promise(function (resolve, reject) {
 
+			let self = this;
+			new Promise(function (resolve) {
 
 				let col = self.collections[self._collection];
 				let str = [];
@@ -82,7 +82,7 @@
 	for (let i = 0; i < tables.length; i++) {
 		let table = tables[i];
 		if (table.getAttribute('data-src')) {
-			let t = new Table(table);
+			(new Table(table));
 		}
 	}
 

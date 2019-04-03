@@ -45,11 +45,11 @@ export class MongoDB implements DatabaseStreamInterface {
 		let col = this._db.collection(collection);
 
 		(async function () {
-			try {
+			//try {
 				col.insertOne(doc, callback);
-			} catch (err) {
-				callback(false, []);
-			}
+			//} catch (err) {
+				//callback(false, []);
+			//}
 		})();
 
 	}
@@ -70,14 +70,15 @@ export class MongoDB implements DatabaseStreamInterface {
 
 	search(collection, search, count, callback) {
 		let col = this._db.collection(collection);
-		col.find(search);
+		//col.find(search);
 		(async function () {
-			try {
+			//try {
 				let docs = await col.find(search).limit(count).toArray();
 				callback(false, docs);
-			} catch (err) {
-				callback(true, []);
-			}
+			//} catch (e) {
+				//console.log('SEARCH ERR', typeof e, e,'wtf');
+				//callback(true, []);
+			//}
 		})();
 	}
 

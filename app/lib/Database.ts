@@ -40,9 +40,12 @@ export class Database implements DatabaseInterface {
 		let self = this;
 		if (this._databaseInMemory[databaseName]) {
 			this._databaseInMemory[databaseName].search(collection, search, 1, function (err, res) {
-				if (!err || !res || res.length === 0) {
+				console.log('r0',err,res);
+				if (err || res.length === 0) {
 					self._databaseInMemory[databaseName].save(collection, doc, function (err2, res2) {
+						console.log('r2',err2,res2);
 						self._databaseInMemory[databaseName].search(collection, search, 1, function (err3, res3) {
+							console.log('r3',err3,res3);
 							callback(err3, res3);
 						});
 					});
