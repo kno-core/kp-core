@@ -87,7 +87,6 @@ export class ObjectDocumentSchema {
 			//console.log(f, "SWISH??", f["name"] === field);
 			if (f["name"] === field) {
 				hit = true;
-				console.log('HITTTTTTTT', f);
 				return f.value;
 			}
 

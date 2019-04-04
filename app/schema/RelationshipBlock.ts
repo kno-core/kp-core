@@ -34,6 +34,7 @@ export class RelationshipBlock extends FieldSchema implements BlockInterface {
 		let self = this;
 		this.firstrun = true;
 
+
 		if (!isNode) {
 			self.renderFn = function () {
 				self.edit().then(function (html: string) {
