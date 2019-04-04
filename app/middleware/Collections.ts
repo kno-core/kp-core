@@ -44,7 +44,8 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			"type": "Page",
 			fields: [
 				new FieldSchema({"name": "title", "type": "text"}),
-				new FieldSchema({"name": "slug", "type": "text"})
+				new FieldSchema({"name": "slug", "type": "text"}),
+				new FieldSchema({"name": "site", "type": "relationship"})
 			]
 		}));
 
@@ -90,7 +91,16 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				route.enqueueScript(readFileSync('./controller/Table.js').toString());
 				route.enqueueBody(`<div class="container"><h1>Collections</h1><table data-src="/collections/get/"></table></div>`);
 				resolve();
-			})
+			});
+		});
+
+		app.use(`/relationships/site/`, function (route: Route) {
+			return new Promise(function (resolve, reject) {
+				app.DB().search('kino', 'Site', {}, 100, function (e, r) {
+					route.getResponse().end(JSON.stringify(r));
+					resolve('ace');
+				});
+			});
 		});
 
 		app.use(`/collections/get/`, function (route: Route) {

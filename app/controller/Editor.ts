@@ -10,10 +10,9 @@ class Editor {
 	private collection: any;
 	private _collection: number;
 
-	constructor(element: Element) {
+	constructor(element?: Element) {
 		let self = this;
 		this.element = element;
-
 		this.rows = [];
 		this.collection = [];
 		this._collection = 0;
@@ -25,17 +24,11 @@ class Editor {
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
 					self.collection = new ObjectDocumentSchema(JSON.parse(xhr.responseText));
-					//self.collection.forEach(function (field: any, index: number) {
-
-					//	self.collection.fields[index] = new TextBlock(field);
-					//});
 					self.render();
 				}
 			}
 		};
-
 		xhr.send(null);
-
 	}
 
 	render() {
@@ -73,7 +66,7 @@ class Editor {
 
 	getHTML(): Promise<string> {
 		let self = this;
-		let chain = this.collection.fields.slice(0, this.collection.fields.length);
+		let chain:Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
 		let html: Array<string> = [];
 		return new Promise(function (resolve, reject) {
 			function process() {

@@ -19,11 +19,16 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 	}
 
 	view():any {
-		let output = [];
 
-		output.push(`<div class="what settings-apply-container"><p>` + this.value + `</p></div>`);
+		return new Promise(function (resolve, reject) {
 
-		return output.join('');
+			let output = [];
+
+			output.push(`<div class="what settings-apply-container"><p>` + this.value + `</p></div>`);
+
+			resolve(output.join(''));
+		});
+
 	}
 
 	edit():Promise<string> {
