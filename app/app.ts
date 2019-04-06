@@ -16,11 +16,11 @@ app.register(new Passport());
 app.register(new IAM());
 
 
-app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
+app.use(`/(.*)?`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
 	return new Promise(function (resolve, reject) {
 
-		app.DB().search('kino', 'Page', {"fields.name": "slug", "fields.value": route.getRequest().params[0]}, 1, function (e, r) {
+		app.DB().search('kino', 'Page', {"fields.name": "slug", "fields.value": route.getRequest().params[0]||''}, 1, function (e, r) {
 			if (!e && r.length > 0) {
 				console.log('page', r);
 
