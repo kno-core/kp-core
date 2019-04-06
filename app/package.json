@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "app": "ts-node app.ts",
+    "debug": "ts-node app.ts --trace-warnings",
     "mongo": "mongod --dbpath db"
   },
   "author": "",
@@ -25,6 +26,7 @@
     "http-errors": "^1.7.2",
     "mocha": "^6.0.2",
     "mongodb": "^3.2.2",
+    "mongoose": "^5.4.22",
     "passport": "^0.4.0",
     "passport-github": "^1.1.0",
     "type-is": "^1.6.16"

@@ -17,7 +17,7 @@ app.register(new IAM());
 
 
 app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
-	console.log('what');
+
 	return new Promise(function (resolve, reject) {
 
 		app.DB().search('kino', 'Page', {"fields.name": "slug", "fields.value": route.getRequest().params[0]}, 1, function (e, r) {

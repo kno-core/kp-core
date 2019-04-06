@@ -3,23 +3,24 @@ import {writeFileSync, readFileSync} from "fs";
 
 export class TypescriptCompiler {
 
-	private cache;
+    private cache;
 
-	constructor() {
-		this.cache = [];
-	}
+    constructor() {
+        this.cache = [];
+    }
 
-	public compile(fileName):Promise<string> {
-		let self = this;
+    public compile(fileName): Promise<string> {
+        let self = this;
 
-		return new Promise(function (resolve, reject) {
-			if (self.cache[fileName]) {
-				resolve(self.cache[fileName]);
-				return;
-			}
-			execSync('rm -f -r tmp').toString();
-			execSync('mkdir tmp && cd tmp').toString();
-			writeFileSync('./tmp/tsconfig.json', `{
+        return new Promise(function (resolve, reject) {
+            if (self.cache[fileName]) {
+                resolve(self.cache[fileName]);
+                return;
+            }
+            try {
+                execSync('rm -f -r tmp').toString();
+                execSync('mkdir tmp && cd tmp').toString();
+                writeFileSync('./tmp/tsconfig.json', `{
   "compilerOptions": {
 	"module": "commonjs",
 	"noImplicitAny": true,
@@ -34,7 +35,7 @@ export class TypescriptCompiler {
   ]
 }`);
 
-			writeFileSync('./tmp/webpack.config.ts', `module.exports = {
+                writeFileSync('./tmp/webpack.config.ts', `module.exports = {
 	entry: {
 		app: '.${fileName.replace(".ts", ".js")}'
 	},
@@ -46,18 +47,21 @@ export class TypescriptCompiler {
 	target: "web"
 };
 `);
-			execSync('cd tmp && tsc --p tsconfig.json').toString();
-			execSync('cd tmp && webpack').toString();
-			//execSync('cd tmp && browserify ./dist/webpack.js -o ./dist/bin.js').toString();
-			//execSync(`browserify -p tinyify ${fileName.replace(".ts", ".js")} -o ./tmp/bin.js`).toString();
+                execSync('cd tmp && tsc --p tsconfig.json').toString();
+                execSync('cd tmp && webpack').toString();
+                //execSync('cd tmp && browserify ./dist/webpack.js -o ./dist/bin.js').toString();
+                //execSync(`browserify -p tinyify ${fileName.replace(".ts", ".js")} -o ./tmp/bin.js`).toString();
 
 
+                self.cache[fileName] = readFileSync('./tmp/dist/webpack.js', 'utf8');
+                //execSync('rm -f -r tmp').toString();
 
-			self.cache[fileName] = readFileSync('./tmp/dist/webpack.js', 'utf8');
-			//execSync('rm -f -r tmp').toString();
 
-
-			resolve(self.cache[fileName]);
-		});
-	}
+                resolve(self.cache[fileName]);
+            }catch(e){
+                console.trace(e);
+                reject(e);
+            }
+        });
+    }
 }

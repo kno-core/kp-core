@@ -80,7 +80,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					resolve();
 				}else{
 					route.enqueueScript(`window.location = '/login/';`);
-					reject();
+					reject('NOT AUTHORIZED');
 				}
 			});
 		});
@@ -134,6 +134,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				let col = self.collections[prop];
 				app.use(`/collections/get/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
+						console.log('WHAT IT DO');
 						let req = route.getRequest();
 						if (req.params[0] !== '/'){
 							app.DB().search('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},50,function(e,r){
@@ -179,6 +180,8 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 							let req = route.getRequest();
 							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
 							resolve();
+						}).catch(function(e){
+							console.trace('compile',e);
 						});
 					});
 				});
@@ -221,6 +224,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					});
 
 				} catch (e) {
+					reject('not posted');
 					console.error(e);
 				}
 			})

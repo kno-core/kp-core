@@ -58,9 +58,11 @@ export class Core implements StackInterface, ProviderInterface {
 					let layer: Layer = chain.shift();
 					layer.fn(route).then(function () {
 						process();
-					}).catch(function () {
+					}).catch(function (e) {
 						route.getResponse().end(`CHAIN FAILED`);
-						reject();
+						console.log(e);
+						console.trace(e,"chain failure");
+						reject('Chain Failed');
 					});
 				} else {
 					resolve();
@@ -81,6 +83,8 @@ export class Core implements StackInterface, ProviderInterface {
 		self.route(route).then(function () {
 			route.getPayload().then(function (payload) {
 				response.end(payload);
+			}).catch(function (e) {
+				console.trace(e);
 			});
 		});
 	}

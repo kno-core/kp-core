@@ -91,7 +91,7 @@ export class RelationshipBlock extends FieldSchema implements BlockInterface {
 			let promises:Array<Promise<void>> = [];
 			if (!self.firstrun) {
 				self.cached.forEach(function (item: ObjectDocumentSchema) {
-					console.log(item);
+					console.log('rel item',item);
 					if (item.fields) {
 						promises.push(item.getProperty('title').then(function (title) {
 							options.push(`<option value="${item._id || 0}" ${item._id == self.value ? `selected='selected'` : ''}>${title || 'site name'}</option>`);

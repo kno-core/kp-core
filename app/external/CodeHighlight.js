@@ -524,7 +524,7 @@ for (let i = 0; i < codes.length; i++) {
 		//	}
 
 	});
-	console.log(item);
+	console.log('codehightlight',item);
 }
 
 let repo_new_save = document.getElementById('repo-new-save');

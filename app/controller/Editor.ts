@@ -77,7 +77,7 @@ class Editor {
 						process();
 					}).catch(function () {
 						html.push(`block failed ${JSON.stringify(block)}`);
-						reject();
+						reject('block failed');
 					});
 				} else {
 
