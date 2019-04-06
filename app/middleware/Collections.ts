@@ -102,6 +102,14 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				});
 			});
 		});
+		app.use(`/relationships/Template/`, function (route: Route) {
+			return new Promise(function (resolve, reject) {
+				app.DB().search('kino', 'Template', {}, 100, function (e, r) {
+					route.getResponse().end(JSON.stringify(r));
+					resolve('ace');
+				});
+			});
+		});
 
 		app.use(`/collections/get/`, function (route: Route) {
 			return new Promise(function (resolve, reject) {
@@ -134,7 +142,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				let col = self.collections[prop];
 				app.use(`/collections/get/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
-						console.log('WHAT IT DO');
+
 						let req = route.getRequest();
 						if (req.params[0] !== '/'){
 							app.DB().search('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},50,function(e,r){

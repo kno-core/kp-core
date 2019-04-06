@@ -130,7 +130,7 @@ export class TemplateBlock extends FieldSchema implements BlockInterface {
 		if (this.firstrun) {
 			//@ts-ignore
 			let xhr: any = new XMLHttpRequest();
-			xhr.open('GET', `/collections/get/${this.name}/`, true);
+			xhr.open('GET', `/relationships/${this.name}/`, true);
 			xhr.responseType = 'text';
 			xhr.onload = function () {
 				if (xhr.readyState === xhr.DONE) {
