@@ -69,16 +69,18 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 
 	eventHandler(): void {
 		let parent = this;
+		let codeblock = <HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`);
+		if (codeblock) {
+			(codeblock.onkeyup = function (e) {
+				let input = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`));
+				parent.value = (input).innerText;
+				let dest = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`));
 
-		(<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`)).onkeyup = function (e) {
-			let input = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`));
-			parent.value = (input).innerText;
-			let dest = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`));
+				dest.innerText = (input).innerText;
+				// @ts-ignore
+				window["format"](dest);
 
-			dest.innerText = (input).innerText;
-			// @ts-ignore
-			window["format"](dest);
-
+			});
 		}
 
 	}

@@ -65,8 +65,77 @@ class Editor {
 				field.eventHandler();
 			});
 
+			function moveUp(index: number) {
+				let v = self.collection.blocks[index];
+				self.collection.blocks[index] = self.collection.blocks[index - 1];
+				self.collection.blocks[index - 1] = v;
+				self.render()
+			}
 
-			let b = document.getElementsByClassName('create');
+			function moveDown(index: number) {
+				let v = self.collection.blocks[index];
+				self.collection.blocks[index] = self.collection.blocks[index + 1];
+				self.collection.blocks[index + 1] = v;
+				self.render()
+			}
+			function removeBlock(index: number) {
+				self.collection.blocks.splice(index,1);
+				self.render()
+			}
+
+			let b = document.getElementsByClassName('edit-controls');
+			if (b) {
+				for (let i = 0; i < b.length; i++) {
+					let el: any = b[i];
+
+					let mid = Math.floor(Math.random() * 100000000);
+
+					let str = '';
+
+
+					if (i > 0) {
+						str += `<button id="${mid}-up">Up</button>`;
+					}
+
+					if (i < b.length - 1) {
+						str += `<button id="${mid}-down">down</button>`;
+					}
+
+
+					str += `<button id="${mid}-remove">remove</button>`;
+
+
+					el.innerHTML = str;
+
+					let up = document.getElementById(`${mid}-up`);
+					if (up) {
+						up.onclick = function () {
+							moveUp(i);
+							self.render();
+						}
+					}
+
+					let down = document.getElementById(`${mid}-down`);
+					if (down) {
+						down.onclick = function () {
+							moveDown(i);
+							self.render();
+						}
+					}
+
+					let remove = document.getElementById(`${mid}-remove`);
+					if (remove) {
+						remove.onclick = function () {
+							removeBlock(i);
+							self.render();
+						}
+					}
+
+				}
+			}
+
+
+			b = document.getElementsByClassName('create');
 			if (b) {
 				for (let i = 0; i < b.length; i++) {
 					let el: any = b[i];
@@ -79,8 +148,8 @@ class Editor {
 							//case "image":
 							//	self.collection.blocks.push(new ImageBlock({"type": 'image', "value": ""}));
 							//	break;
-							case "code":
-								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": ""}));
+							case "html":
+								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": "","name":"html"}));
 								break;
 							case "template":
 								self.collection.blocks.push(new TemplateBlock({"type": 'template', "value": "", "name": "Template"}, self.render));
@@ -100,15 +169,21 @@ class Editor {
 
 	getHTML(): Promise<string> {
 		let self = this;
-		let chain:Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
+		let chain: Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
 		chain = chain.concat(this.collection.blocks.slice(0, this.collection.blocks.length));
 		let html: Array<string> = [];
+		let locked_fields_length = -this.collection.fields.length;
 		return new Promise(function (resolve, reject) {
 			function process() {
 				if (chain.length > 0) {
 					let block: BlockInterface = chain.shift();
 					block.edit().then(function (dat: string) {
-						html.push(dat);
+						let controls = '';
+						if (locked_fields_length >= 0) {
+							controls = `<div class='edit-controls'></div>`;
+						}
+						html.push(`${controls}${dat}`);
+						locked_fields_length++;
 						process();
 					}).catch(function () {
 						html.push(`block failed ${JSON.stringify(block)}`);
@@ -116,7 +191,7 @@ class Editor {
 					});
 				} else {
 
-					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="image">Add Image</button> <button class="primary create" data-type="code">Add Code</button> <button class="primary create" data-type="template">Add Template</button></div>`);
+					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="image">Add Image</button> <button class="primary create" data-type="html">Add HTML</button> <button class="primary create" data-type="template">Add Template</button></div>`);
 
 					resolve(html.join(''));
 
@@ -152,12 +227,10 @@ class Editor {
 				}
 			}
 		};
-		console.log(JSON.stringify(self.collection));
 		xmlhttp.send(JSON.stringify(self.collection));
 	}
 
 }
-
 
 
 let editors = document.getElementsByClassName('editor');

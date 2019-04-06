@@ -13,7 +13,6 @@ export class ObjectDocumentSchema {
 	public rows: Array<ObjectDocumentSchema>;
 
 	constructor(incoming?: any) {
-		console.log(this.blocks,'<<<<blocks');
 		let self = this;
 		this._id = incoming._id || undefined;
 		this.type = incoming.type || 'document';
@@ -78,20 +77,15 @@ export class ObjectDocumentSchema {
 
 			let hit: any = false;
 			self.fields.forEach(function (f) {
-				console.log(f, "SWISH??", f["name"] === field);
 				if (f["name"] === field) {
 					hit = true;
-					console.log('HITTTTTTTT', f);
 					resolve(f.value);
-					return f.value;
 				}
-
 			});
 
 			if (!hit) {
-				//return new Promise(function (r) {
-				//	reject('NO MATCHING FIELDS')
-				//});
+				console.log('no matching fields for getProperty');
+				reject('NO MATCHING FIELDS');
 			}
 
 		});
@@ -101,9 +95,7 @@ export class ObjectDocumentSchema {
 		let hit: any = false;
 		let v = '';
 		this.fields.forEach(function (f) {
-			console.log(f, "SWISH??", f["name"] === field);
 			if (f["name"] === field) {
-				console.log('value', f.value);
 				hit = true;
 				v = f.value;
 			}
