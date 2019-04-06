@@ -62,9 +62,8 @@ export class TemplateBlock extends FieldSchema implements BlockInterface {
 
 		return new Promise(function (resolve, reject) {
 
-			let output = [];
-
-			output.push(`<div class="what settings-apply-container"><p>Template: ${self.name}: ` + self.value + `</p></div>`);
+			let output:Array<string> = [];
+			//output.push(`<div class="what settings-apply-container"><p>Template: ${self.name}: ` + self.value + `</p></div>`);
 
 			resolve(output.join(''));
 

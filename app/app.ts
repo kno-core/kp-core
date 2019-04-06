@@ -41,24 +41,65 @@ app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
 						let tasks = [];
 
-						console.log('SITE SHITE', page_ob.getPropertyFast("site"), site_ob["_id"].toString())
+						console.log('SITE SHITE', page_ob, site_ob["_id"].toString());
 
 						//if (page_ob.getPropertyFast("site") == site_ob["_id"].toString() || (!route.getRequest().headers['x-forwarded-for'] && site_ob.getPropertyFast("url") === '' && route.getRequest().headers.host.indexOf("localhost:") !== -1)) {
 
-						route.enqueueBody(`<div class="container">`);
-						page_ob.fields.forEach(function (f, index) {
+						route.enqueueBody(`<article>`);
+						/*page_ob.fields.forEach(function (f, index) {
 							tasks.push(
 								function () {
-									return new Promise(function (resolve2, reject2) {
+									return new Promise(function (resolve2) {
 										f.view().then(function (v) {
-											if (index === 0){
-												route.enqueueBody(`<h1>${v}</h1>`);
-											}else{
 												route.enqueueBody(v);
-											}
-											//console.log('should be enqueuing', v);
 											resolve2();
 										});
+									})
+								}
+							);
+						});*/
+
+						page_ob.blocks.forEach(function (f, index) {
+							tasks.push(
+								function () {
+									return new Promise(function (resolve2) {
+
+										if (f.type === 'template') {
+											if (f.value.length === 24) {
+												app.DB().search('kino', 'Template', {"_id": require("mongoose").Types.ObjectId(f.value)}, 100, function (e3, r3) {
+													console.log('TEMPLATES', e3,r3);
+
+													if (!e3 && r3.length > 0) {
+														let ob = new ObjectDocumentSchema(r3[0]);
+														//console.log('html', ob.getPropertyFast('html'));
+														route.enqueueBody(ob.getPropertyFast('html'));
+														route.enqueueScript(ob.getPropertyFast('javascript'));
+														route.enqueueStyle(ob.getPropertyFast('css'));
+													}
+													//route.getResponse().end(JSON.stringify(r));
+													resolve2('ace');
+												});
+											} else {
+												resolve2('not acttached');
+											}
+										} else {
+											f.view().then(function (v) {
+												//if (index === 0){
+												//	route.enqueueBody(`<h1>${v}</h1>`);
+												//}else{
+												route.enqueueBody(v);
+												//}
+												resolve2();
+											});
+										}
+										//f.view().then(function (v) {
+										//if (index === 0){
+										//	route.enqueueBody(`<h1>${v}</h1>`);
+										//}else{
+										//route.enqueueBody(v);
+										//}
+										//resolve2();
+										//});
 									})
 								}
 							);
@@ -70,7 +111,7 @@ app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 							result = result.then(() => task());
 						});
 						result.then(function () {
-							route.enqueueBody(`</div>`);
+							route.enqueueBody(`</article>`);
 							resolve();
 						});
 

@@ -4,34 +4,34 @@ import {BlockInterface} from "./BlockInterface";
 export class CodeBlock extends FieldSchema implements BlockInterface {
 
 	private _handler_id: string;
-	private _options:any;
+	private _options: any;
 
 	constructor(block?: any) {
 		super(block);
 
 	}
 
-	config():any{
+	config(): any {
 		return {
-			color:{'type':'RGB','default':"#333"},
-			element:{'type':'element','default':"p"}
+			color: {'type': 'RGB', 'default': "#333"},
+			element: {'type': 'element', 'default': "p"}
 		}
 	}
 
-	view():any {
-
+	view(): any {
+		let self = this;
 		return new Promise(function (resolve, reject) {
 
 			let output = [];
 
-			output.push(`<div class="what settings-apply-container"><p>` + this.value + `</p></div>`);
+			output.push(`<div class="what settings-apply-container"><p>` + self.value + `</p></div>`);
 
 			resolve(output.join(''));
 		});
 
 	}
 
-	edit():Promise<string> {
+	edit(): Promise<string> {
 		this._handler_id = ((Math.random() * 99999999.99999999) | 0).toString(16);
 		let self = this;
 		return new Promise(function (resolve) {
@@ -69,32 +69,18 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 		});
 	}
 
-	eventHandler():void {
+	eventHandler(): void {
 		let parent = this;
 
 		(<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`)).onkeyup = function (e) {
 			let input = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}`));
 			parent.value = (input).innerText;
-			//previewFn();
 			let dest = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`));
-			//let ps:HTMLInputElement = input.parentNode.innerHTML;
-			//while (p.indexOf('<div><br></div>') !== -1) {
-			//	p = p.replace('<div><br></div>', "<div>&nbsp;<br></div>");
-			//}//
+
 			dest.innerText = (input).innerText;
 			// @ts-ignore
 			window["format"](dest);
 
-			/*if(e.keyCode === 13)
-			{
-				console.log('just checking in');
-			}else {
-				console.log('reformatting');
-				let el = (<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`));
-				// @ts-ignore
-				window["format"]((<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`)));
-				(<HTMLInputElement>document.getElementById(`block-edit-${parent._handler_id}format`))
-			}*/
 		}
 
 	}
@@ -103,7 +89,7 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 		return JSON.stringify({type: this.type, value: this.value});
 	}
 
-	getType(){
+	getType() {
 		return this.type;
 	}
 }

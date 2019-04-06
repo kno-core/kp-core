@@ -41,7 +41,6 @@ export class ObjectDocumentSchema {
 	}
 
 	expand(e: Array<FieldSchema>) {
-		console.log('expanding', this, this.blocks, e);
 		if (!e) {
 			return;
 		}
@@ -100,18 +99,18 @@ export class ObjectDocumentSchema {
 
 	getPropertyFast(field: string) {
 		let hit: any = false;
+		let v = '';
 		this.fields.forEach(function (f) {
-			//console.log(f, "SWISH??", f["name"] === field);
+			console.log(f, "SWISH??", f["name"] === field);
 			if (f["name"] === field) {
+				console.log('value', f.value);
 				hit = true;
-				return f.value;
+				v = f.value;
 			}
 
 		});
 
-		if (!hit) {
-			return '';
-		}
+		return v;
 	}
 
 	factory() {
