@@ -18,7 +18,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 				switch (self.type) {
 					case "text":
 						if (self.name === 'slug' || self.name === 'created' || self.name === 'title' || self.name === 'url') {
-							output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>localhost:8080/&nbsp;</label>` : ''}<input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div></div>`);
+							output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>${(location?location.host:'website.com')}/&nbsp;</label>` : ''}<input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div></div>`);
 						} else {
 							output.push(`<div class="edit block">${self.name}<div class="wysiwyg-controls"><button onmousedown = "" onclick="document.execCommand('bold', false,'');">Bold</button> Y Z P D Q</div><div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." value="${self.value}" >${self.value}</div></div></div>`);
 						}

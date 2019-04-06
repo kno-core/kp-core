@@ -23,7 +23,7 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 		return new Promise(function (resolve, reject) {
 
 			let output = [];
-			output.push(`<div class="what settings-apply-container"><p>` + self.value + `</p></div>`);
+			output.push(`${self.value}`);
 			resolve(output.join(''));
 		});
 
