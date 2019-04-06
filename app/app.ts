@@ -45,14 +45,19 @@ app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
 						//if (page_ob.getPropertyFast("site") == site_ob["_id"].toString() || (!route.getRequest().headers['x-forwarded-for'] && site_ob.getPropertyFast("url") === '' && route.getRequest().headers.host.indexOf("localhost:") !== -1)) {
 
-						page_ob.fields.forEach(function (f) {
+						route.enqueueBody(`<div class="container">`);
+						page_ob.fields.forEach(function (f, index) {
 							tasks.push(
 								function () {
 									return new Promise(function (resolve2, reject2) {
 										f.view().then(function (v) {
-										//console.log('should be enqueuing', v);
-										route.enqueueBody(v);
-										resolve2();
+											if (index === 0){
+												route.enqueueBody(`<h1>${v}</h1>`);
+											}else{
+												route.enqueueBody(v);
+											}
+											//console.log('should be enqueuing', v);
+											resolve2();
 										});
 									})
 								}
@@ -62,11 +67,12 @@ app.use(`/(.*)`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
 						var result = Promise.resolve();
 						tasks.forEach(task => {
-								result = result.then(() => task());
-								});
-								result.then(function(){
-						resolve();
-							});
+							result = result.then(() => task());
+						});
+						result.then(function () {
+							route.enqueueBody(`</div>`);
+							resolve();
+						});
 
 						//}
 
