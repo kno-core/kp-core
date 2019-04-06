@@ -2,6 +2,8 @@ import {TextBlock} from "../schema/TextBlock";
 import {BlockInterface} from "../schema/BlockInterface";
 import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 import {FieldSchema} from "../schema/FieldSchema";
+import {CodeBlock} from "../schema/CodeBlock";
+import {TemplateBlock} from "../schema/TemplateBlock";
 
 class Editor {
 
@@ -59,6 +61,38 @@ class Editor {
 			self.collection.fields.forEach(function (field: BlockInterface) {
 				field.eventHandler();
 			});
+			self.collection.blocks.forEach(function (field: BlockInterface) {
+				field.eventHandler();
+			});
+
+
+			let b = document.getElementsByClassName('create');
+			if (b) {
+				for (let i = 0; i < b.length; i++) {
+					let el: any = b[i];
+					el.onclick = function () {
+						switch (el.getAttribute('data-type')) {
+
+							case "text":
+								self.collection.blocks.push(new TextBlock({"type": 'text', "value": ""}));
+								break;
+							//case "image":
+							//	self.collection.blocks.push(new ImageBlock({"type": 'image', "value": ""}));
+							//	break;
+							case "code":
+								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": ""}));
+								break;
+							case "template":
+								self.collection.blocks.push(new TemplateBlock({"type": 'template', "value": "", "name": "Template"}, self.render));
+								break;
+
+						}
+						self.render();
+
+					};
+				}
+			}
+
 
 			resolve();
 		});
@@ -67,6 +101,7 @@ class Editor {
 	getHTML(): Promise<string> {
 		let self = this;
 		let chain:Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
+		chain = chain.concat(this.collection.blocks.slice(0, this.collection.blocks.length));
 		let html: Array<string> = [];
 		return new Promise(function (resolve, reject) {
 			function process() {
@@ -80,6 +115,8 @@ class Editor {
 						reject('block failed');
 					});
 				} else {
+
+					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="image">Add Image</button> <button class="primary create" data-type="code">Add Code</button> <button class="primary create" data-type="template">Add Template</button></div>`);
 
 					resolve(html.join(''));
 
@@ -115,11 +152,13 @@ class Editor {
 				}
 			}
 		};
+		console.log(JSON.stringify(self.collection));
 		xmlhttp.send(JSON.stringify(self.collection));
 	}
 
-
 }
+
+
 
 let editors = document.getElementsByClassName('editor');
 

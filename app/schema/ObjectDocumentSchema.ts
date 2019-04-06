@@ -2,41 +2,25 @@ import {FieldSchema} from "./FieldSchema";
 import {TextBlock} from "./TextBlock";
 import {CodeBlock} from "./CodeBlock";
 import {RelationshipBlock} from "./RelationshipBlock";
+import {TemplateBlock} from "./TemplateBlock";
 
 export class ObjectDocumentSchema {
 	public _id: string;
 	public type: string;
 	public created: number;
 	public fields: Array<FieldSchema>;
+	public blocks: Array<FieldSchema>;
 	public rows: Array<ObjectDocumentSchema>;
 
 	constructor(incoming?: any) {
+		console.log(this.blocks,'<<<<blocks');
 		let self = this;
 		this._id = incoming._id || undefined;
 		this.type = incoming.type || 'document';
 		this.fields = incoming.fields || [];
-		this.fields.forEach(function (field, index) {
-			let schema: any = null;
-			switch (field.type) {
-				case "text":
-					schema = TextBlock;
-					break;
-				case "code":
-					schema = CodeBlock;
-					break;
-				case "relationship":
-					schema = RelationshipBlock;
-					break;
-				default:
-					schema = FieldSchema;
-					break;
-			}
-			if (schema) {
-				self.fields[index] = (new schema(field));
-			} else {
-				console.warn(field, incoming, 'Unhandled schema / field type');
-			}
-		});
+		this.blocks = incoming.blocks || [];
+		self.expand(self.fields);
+		self.expand(self.blocks);
 		this.created = incoming.created || Date.now();
 	}
 
@@ -49,13 +33,46 @@ export class ObjectDocumentSchema {
 	factoryFromFlatObjectAsFields(input: any) {
 
 		let ob = this.factory();
-		ob.fields.forEach(function (f, i) {
+		ob.fields.forEach(function (f: any, i: any) {
 			ob.fields[i].value = input[f.name];
 		});
+		ob.blocks = [];
 		return ob;
 	}
 
-	getProperty(field:string):Promise<any>{
+	expand(e: Array<FieldSchema>) {
+		console.log('expanding', this, this.blocks, e);
+		if (!e) {
+			return;
+		}
+		e.forEach(function (field: FieldSchema, index: number) {
+			let schema: any = null;
+			switch (field.type) {
+				case "text":
+					schema = TextBlock;
+					break;
+				case "code":
+					schema = CodeBlock;
+					break;
+				case "relationship":
+					schema = RelationshipBlock;
+					break;
+				case "template":
+					schema = TemplateBlock;
+					break;
+				default:
+					schema = FieldSchema;
+					break;
+			}
+			if (schema) {
+				e[index] = (new schema(field));
+			} else {
+				console.warn(field, 'Unhandled schema / field type');
+			}
+		});
+	}
+
+	getProperty(field: string): Promise<any> {
 		let self = this;
 		return new Promise(function (resolve, reject) {
 
@@ -72,7 +89,7 @@ export class ObjectDocumentSchema {
 
 			});
 
-			if (!hit){
+			if (!hit) {
 				//return new Promise(function (r) {
 				//	reject('NO MATCHING FIELDS')
 				//});
@@ -81,7 +98,7 @@ export class ObjectDocumentSchema {
 		});
 	}
 
-	getPropertyFast(field:string){
+	getPropertyFast(field: string) {
 		let hit: any = false;
 		this.fields.forEach(function (f) {
 			//console.log(f, "SWISH??", f["name"] === field);
@@ -92,7 +109,7 @@ export class ObjectDocumentSchema {
 
 		});
 
-		if (!hit){
+		if (!hit) {
 			return '';
 		}
 	}
