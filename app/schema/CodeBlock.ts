@@ -52,7 +52,6 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 			output.push(`
 <div class="edit block" data-block-index="${self._handler_id}">
 <div class="edit-title">${self.name}</div>
-<div class="edit-controls">X Y Z P D Q</div>
 
 <div class="clr"></div>
 
