@@ -15,10 +15,10 @@ app.register(new URLEncoded());
 app.register(new Passport());
 app.register(new IAM());
 
-app.use(`/(.*)?`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
+app.use(`/([a-zA-Z0-9\-]*)?`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
     return new Promise(function (resolve, reject) {
-
+        console.log('CHECKING URL',route.getRequest().url, route.getRequest().params);
         let slug = ((route.getRequest().params[0] && route.getRequest().params[0] !== '/') ? route.getRequest().params[0] : '');
         console.log('SLUG', slug);
 

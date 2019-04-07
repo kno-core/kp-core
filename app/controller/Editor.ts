@@ -205,7 +205,7 @@ class Editor {
 	save(): any {
 		let self = this;
 		var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
-		var theUrl = "../post/";
+		var theUrl = "/collections/post/";
 		xmlhttp.open("POST", theUrl);
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.responseType = 'text';

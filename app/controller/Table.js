@@ -35,7 +35,7 @@
 					self.collections.forEach(function (collection, index) {
 						options.push(`<option value="${index}" ${(self._collection === index ? `selected='selected'` : '')}>${collection.type}</option>`);
 					});
-					str.push(`<tr><td colspan="${width}"><span class="select-wrapper"><select id="select-collection">${options.join('')}</select></span> <a href="/collections/${self.collections[self._collection].type}/"><button class="primary">Create New ${self.collections[self._collection].type}</button></a></td></tr>`);
+					str.push(`<tr><td colspan="${width}"><span class="select-wrapper"><select id="select-collection">${options.join('')}</select></span> <a href="/collections/edit/${self.collections[self._collection].type}/"><button class="primary">Create New ${self.collections[self._collection].type}</button></a></td></tr>`);
 				}
 
 				str.push(`<tr>`);
@@ -66,7 +66,7 @@
 			}).then(function (inner) {
 				self.element.innerHTML = inner;
 				document.getElementById('select-collection').onchange = function () {
-					window.location = `/collections/${document.getElementById('select-collection')[this.value].innerText}/`;
+					window.location = `/collections/edit/${document.getElementById('select-collection')[this.value].innerText}/`;
 				};
 			}).catch(function (inner) {
 				self.element.innerHTML = inner;
