@@ -84,12 +84,23 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				}
 			});
 		});
-		app.use(`/collections/`, function (route: Route) {
+		app.use(`/collections/([a-zA-Z]*)?/?`, function (route: Route) {
 			return new Promise(function (resolve, reject) {
 				route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 				route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
 				route.enqueueScript(readFileSync('./controller/Table.js').toString());
-				route.enqueueBody(`<div class="container"><h1>Collections</h1><table data-src="/collections/get/"></table></div>`);
+
+				let selected_index = 0;
+				let i = 0;
+				console.log('PARAM',route.getRequest().params[0]);
+				for (let col in self.collections) {
+					if (col == route.getRequest().params[0]){
+						selected_index = i;
+					}
+					i++;
+				}
+
+				route.enqueueBody(`<div class="container"><h1>Collections</h1>${self.generateMenu()}<table data-src="/collections/get/" data-index="${selected_index}"></table></div>`);
 				resolve();
 			});
 		});
@@ -177,7 +188,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					});
 				});
 
-				app.use(`/collections/${col.type}/([a-f0-9]{24})?/?`, function (route: Route) {
+				app.use(`/collections/edit/${col.type}/([a-f0-9]{24})?/?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
@@ -186,7 +197,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 							route.enqueueScript(compiled);
 							route.enqueueScript(readFileSync('./external/CodeHighlight.js').toString());
 							let req = route.getRequest();
-							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1><div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
+							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1>${self.generateMenu()}<div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
 							resolve();
 						}).catch(function(e){
 							console.trace('compile',e);
@@ -237,6 +248,18 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				}
 			})
 		});
+	}
+
+	generateMenu():string{
+		let menu = [];
+
+		for (let prop in this.collections){
+			let scheme:ObjectDocumentSchema = this.collections[prop];
+
+			menu.push(`<a href="/collections/${scheme.type}/">${scheme.type}</a>`);
+		}
+
+		return `<div class="block">${menu.join(' - ')}</div>`;
 	}
 
 	define(collection: string, schema: ObjectDocumentSchema) {

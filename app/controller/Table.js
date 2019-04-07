@@ -5,7 +5,8 @@
 		this.element = element;
 		this.rows = [];
 		this.collections = [];
-		this._collection = 0;
+		this._collection = parseInt(element.getAttribute('data-index'))||0;
+		console.log('index',this._collection);
 
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', this.element.getAttribute('data-src'), true);
@@ -54,7 +55,7 @@
 						row.fields.forEach(function (field) {
 							str.push(`<td>${field.value}</td>`);
 						});
-						str.push(`<td><a href="./${col.type}/${row._id||''}">edit</a><a href="./remove/${col.type}/${row._id||''}">remove</a></td>`);
+						str.push(`<td><a href="/collections/edit/${col.type}/${row._id||''}">edit</a><a href="/collections/remove/${col.type}/${row._id||''}">remove</a></td>`);
 						str.push(`</tr>`);
 
 					});
@@ -65,8 +66,7 @@
 			}).then(function (inner) {
 				self.element.innerHTML = inner;
 				document.getElementById('select-collection').onchange = function () {
-					self._collection = parseInt(this.value);
-					self.render();
+					window.location = `/collections/${document.getElementById('select-collection')[this.value].innerText}/`;
 				};
 			}).catch(function (inner) {
 				self.element.innerHTML = inner;
