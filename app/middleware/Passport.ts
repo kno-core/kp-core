@@ -21,7 +21,7 @@ export class Passport implements MiddlewareInterface {
 
 		var GitHubStrategy = require('passport-github').Strategy;
 
-		passport.use(new GitHubStrategy(JSON.parse(readFileSync("./secrets.json", 'utf8'))["passport"]["github"],
+		passport.use(new GitHubStrategy(JSON.parse(readFileSync("./secrets.json", 'utf8'))["localhost:8080"]["passport"]["github"],
 			function (accessToken, refreshToken, profile, cb) {
 				let doc = app.IAM().getUserSchema().factoryFromFlatObjectAsFields({githubId: profile.id});
 				app.IAM().findOrCreate({"fields.name": "githubId", "fields.value": profile.id}, doc).then(function (res) {
