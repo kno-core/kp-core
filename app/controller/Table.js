@@ -41,7 +41,9 @@
 				str.push(`<tr>`);
 				col.fields.forEach(function (field) {
 
-					str.push(`<td>${field.name}</td>`);
+					if (field.name==="title") {
+						str.push(`<td>${field.name}</td>`);
+					}
 
 				});
 				str.push(`<td>controls</td>`);
@@ -52,8 +54,11 @@
 				if (col.rows) {
 					col.rows.forEach(function (row) {
 						str.push(`<tr>`);
+
 						row.fields.forEach(function (field) {
-							str.push(`<td>${field.value}</td>`);
+							if (field.name==="title") {
+								str.push(`<td>${field.value}</td>`);
+							}
 						});
 						str.push(`<td><a href="/collections/edit/${col.type}/${row._id||''}">edit</a><a href="/collections/remove/${col.type}/${row._id||''}">remove</a></td>`);
 						str.push(`</tr>`);
@@ -66,7 +71,7 @@
 			}).then(function (inner) {
 				self.element.innerHTML = inner;
 				document.getElementById('select-collection').onchange = function () {
-					window.location = `/collections/edit/${document.getElementById('select-collection')[this.value].innerText}/`;
+					window.location = `/collections/${document.getElementById('select-collection')[this.value].innerText}/`;
 				};
 			}).catch(function (inner) {
 				self.element.innerHTML = inner;

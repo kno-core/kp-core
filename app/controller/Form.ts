@@ -42,7 +42,7 @@ export class Form {
                 <table class="table table-responsive-sm table-sm">
                     <thead>
                     <tr>
-                        ${headers}
+                    ${headers}
                     </tr>
                     </thead>
                     <tbody>
