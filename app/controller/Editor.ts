@@ -37,7 +37,12 @@ class Editor {
 		let self = this;
 		self.getHTML().then(function (html) {
 			self.element.innerHTML = html;
-			return self.attachHandlers();
+
+			return self.attachHandlers().then(function(){
+				//@ts-ignore
+				window['feather'].replace();
+			});
+
 		}).catch(function (e) {
 			console.error('rejected', e);
 		});
@@ -94,15 +99,15 @@ class Editor {
 
 
 					if (i > 0) {
-						str += `<button id="${mid}-up">Up</button>`;
+						str += `<button id="${mid}-up"><i data-feather="arrow-up"></i></button>`;
 					}
 
 					if (i < b.length - 1) {
-						str += `<button id="${mid}-down">down</button>`;
+						str += `<button id="${mid}-down"><i data-feather="arrow-down"></i></button>`;
 					}
 
 
-					str += `<button id="${mid}-remove">remove</button>`;
+					str += `<button id="${mid}-remove"><i data-feather="delete"></i></button>`;
 
 
 					el.innerHTML = str;

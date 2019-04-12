@@ -18,28 +18,17 @@ app.register(new IAM());
 app.use(`/([a-zA-Z0-9\-]*)?`, function (route: Route) { // DB & SOFTWARE DEFINED ROUTES
 
     return new Promise(function (resolve, reject) {
-        console.log('CHECKING URL',route.getRequest().url, route.getRequest().params);
         let slug = ((route.getRequest().params[0] && route.getRequest().params[0] !== '/') ? route.getRequest().params[0] : '');
-        console.log('SLUG', slug);
-
         app.DB().search('kino', 'Page', {"fields.name": "slug", "fields.value": slug}, 100, function (e, r) {
             if (!e && r.length > 0) {
-                console.log('page', r);
-
-
                 app.DB().search('kino', 'Site', {
                     "fields.name": "url",
                     "fields.value": route.getRequest().headers['x-forwarded-for'] || ''
                 }, 1, function (e2, r2) {
-
                     if (!e2 && r2.length > 0) {
-
                         let hit = false;
-
                         r.forEach(function (page) {
                             let page_ob = new ObjectDocumentSchema(page);
-
-                            console.log('site', r2);
                             let site_ob = new ObjectDocumentSchema(r2[0]);
                             let tasks = [];
                             if (page_ob.getPropertyFast("site") == site_ob["_id"].toString() || (!route.getRequest().headers['x-forwarded-for'] && site_ob.getPropertyFast("url") === '' && route.getRequest().headers.host.indexOf("localhost:") !== -1)) {
@@ -63,7 +52,7 @@ app.use(`/([a-zA-Z0-9\-]*)?`, function (route: Route) { // DB & SOFTWARE DEFINED
                                                             resolve2('ace');
                                                         });
                                                     } else {
-                                                        resolve2('not acttached');
+                                                        resolve2('not attached');
                                                     }
                                                 } else {
                                                     f.view().then(function (v) {
@@ -71,13 +60,10 @@ app.use(`/([a-zA-Z0-9\-]*)?`, function (route: Route) { // DB & SOFTWARE DEFINED
                                                         resolve2();
                                                     });
                                                 }
-
                                             })
                                         }
                                     );
                                 });
-
-
                                 var result = Promise.resolve();
                                 tasks.forEach(task => {
                                     result = result.then(() => task());
@@ -86,32 +72,23 @@ app.use(`/([a-zA-Z0-9\-]*)?`, function (route: Route) { // DB & SOFTWARE DEFINED
                                     route.enqueueBody(`</article>`);
                                     resolve();
                                 });
-
                             } else {
                                 console.log('site didnt match');
-                                //  resolve();
                             }
                         });
                         if (!hit) {
                             resolve('nothin to do here');
                         }
-
-
                     } else {
                         console.log('no site');
                         resolve('no site');
-
                     }
-
                 });
-
-
             } else {
                 console.log('no page');
                 resolve();
             }
         });
-
     });
 });
 

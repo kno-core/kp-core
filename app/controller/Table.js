@@ -47,9 +47,7 @@
 
 				});
 				str.push(`<td>controls</td>`);
-
 				str.push(`</tr>`);
-
 
 				if (col.rows) {
 					col.rows.forEach(function (row) {

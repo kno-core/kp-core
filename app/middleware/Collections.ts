@@ -193,6 +193,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 						route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 						route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
 						route.enqueueStyle(readFileSync('./external/CodeHighlight.css').toString());
+						route.enqueueHead(`<script src="https://unpkg.com/feather-icons"></script>`);
 						tsc.compile('./controller/Editor.ts').then(function (compiled) {
 							route.enqueueScript(compiled);
 							route.enqueueScript(readFileSync('./external/CodeHighlight.js').toString());
