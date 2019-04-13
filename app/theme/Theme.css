@@ -70,4 +70,12 @@ select {
 .editor {
   margin-bottom: 144px; }
 
+.input:last-child {
+  padding-bottom: 0; }
+
+.wysiwyg-controls {
+  position: sticky;
+  top: 0;
+  z-index: 1; }
+
 /*# sourceMappingURL=Theme.css.map */

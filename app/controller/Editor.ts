@@ -249,3 +249,89 @@ for (let i = 0; i < editors.length; i++) {
 		let t = new Editor(editor);
 	}
 }
+
+eval(`
+function nextNode(node) {
+    if (node.hasChildNodes()) {
+        return node.firstChild;
+    } else {
+        while (node && !node.nextSibling) {
+            node = node.parentNode;
+        }
+        if (!node) {
+            return null;
+        }
+        return node.nextSibling;
+    }
+}
+window["nextNode"] = nextNode;
+
+function getRangeSelectedNodes(range, includePartiallySelectedContainers) {
+    var node = range.startContainer;
+    var endNode = range.endContainer;
+    var rangeNodes = [];
+
+    // Special case for a range that is contained within a single node
+    if (node == endNode) {
+        rangeNodes = [node];
+    } else {
+        // Iterate nodes until we hit the end container
+        while (node && node != endNode) {
+            rangeNodes.push( node = nextNode(node) );
+        }
+    
+        // Add partially selected nodes at the start of the range
+        node = range.startContainer;
+        while (node && node != range.commonAncestorContainer) {
+            rangeNodes.unshift(node);
+            node = node.parentNode;
+        }
+    }
+
+    // Add ancestors of the range container, if required
+    if (includePartiallySelectedContainers) {
+        node = range.commonAncestorContainer;
+        while (node) {
+            rangeNodes.push(node);
+            node = node.parentNode;
+        }
+    }
+
+    return rangeNodes;
+}
+window["getRangeSelectedNodes"] = getRangeSelectedNodes;
+
+function getSelectedNodes() {
+    var nodes = [];
+    if (window.getSelection) {
+        var sel = window.getSelection();
+        for (var i = 0, len = sel.rangeCount; i < len; ++i) {
+            nodes.push.apply(nodes, getRangeSelectedNodes(sel.getRangeAt(i), true));
+        }
+    }
+    return nodes;
+}
+window["getSelectedNodes"] = getSelectedNodes;
+
+function replaceWithOwnChildren(el) {
+    var parent = el.parentNode;
+    while (el.hasChildNodes()) {
+        parent.insertBefore(el.firstChild, el);
+    }
+    parent.removeChild(el);
+}
+window["replaceWithOwnChildren"] = replaceWithOwnChildren;
+
+function removeSelectedElements(tagNames) {
+    var tagNamesArray = tagNames.toLowerCase().split(",");
+    getSelectedNodes().forEach(function(node) {
+        if (node.nodeType == 1 &&
+                tagNamesArray.indexOf(node.tagName.toLowerCase()) > -1) {
+            // Remove the node and replace it with its children
+            replaceWithOwnChildren(node);
+        }
+    });
+}
+window["removeSelectedElements"] = removeSelectedElements;
+                
+`);

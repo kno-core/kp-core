@@ -85,3 +85,11 @@ select {
 .editor {
   margin-bottom: $leading*8;
 }
+.input:last-child {
+  padding-bottom: 0;
+}
+.wysiwyg-controls {
+position:sticky;
+  top:0;
+  z-index:1;
+}
