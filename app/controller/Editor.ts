@@ -52,16 +52,17 @@ class Editor {
 		let self = this;
 		return new Promise(function (resolve, reject) {
 
-			let controls = document.createElement('div');
+			let controls = document.getElementById('editor-controls');
+			controls.innerHTML = '';
 
 			let save_btn = document.createElement('button');
-			save_btn.className = 'primary';
 			save_btn.innerText = "Save";
+			save_btn.className = "primary";
 			save_btn.onclick = function () {
 				self.save();
 			};
 			controls.appendChild(save_btn);
-			self.element.appendChild(controls);
+			//self.element.appendChild(controls);
 
 			self.collection.fields.forEach(function (field: BlockInterface) {
 				field.eventHandler();
@@ -177,7 +178,10 @@ class Editor {
 		let chain: Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
 		chain = chain.concat(this.collection.blocks.slice(0, this.collection.blocks.length));
 		let html: Array<string> = [];
+		html.push("WTF<div id='editor-controls'></div>");
+
 		let locked_fields_length = -this.collection.fields.length;
+
 		return new Promise(function (resolve, reject) {
 			function process() {
 				if (chain.length > 0) {
@@ -197,7 +201,6 @@ class Editor {
 				} else {
 
 					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="image">Add Image</button> <button class="primary create" data-type="html">Add HTML</button> <button class="primary create" data-type="template">Add Template</button></div>`);
-
 					resolve(html.join(''));
 
 				}

@@ -16,6 +16,7 @@
 .hero {
   padding: $leading*2 0;
 }
+
 .hero svg {
   height: $leading*3;
   width: $leading*2;
@@ -50,13 +51,14 @@ input[type=submit].primary:active, button.primary:active {
 ul, ol {
   margin-left: $leading * 1;
 }
+
 li {
   line-height: $leading*2;
 }
 
 select {
   padding-right: $base_font_size*4;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .select-wrapper {
@@ -76,5 +78,10 @@ select {
 }
 
 .edit-controls svg {
-  height: 12px;width: 12px;
+  height: 12px;
+  width: 12px;
+}
+
+.editor {
+  margin-bottom: $leading*8;
 }
