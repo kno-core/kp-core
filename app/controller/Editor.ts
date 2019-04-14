@@ -4,6 +4,7 @@ import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 import {FieldSchema} from "../schema/FieldSchema";
 import {CodeBlock} from "../schema/CodeBlock";
 import {TemplateBlock} from "../schema/TemplateBlock";
+import {MediaBlock} from "../schema/MediaBlock";
 
 class Editor {
 
@@ -157,6 +158,9 @@ class Editor {
 							case "html":
 								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": "","name":"html"}));
 								break;
+								case "media":
+								self.collection.blocks.push(new MediaBlock({"type": 'media', "value": "","name":""}));
+								break;
 							case "template":
 								self.collection.blocks.push(new TemplateBlock({"type": 'template', "value": "", "name": "Template"}, self.render));
 								break;
@@ -200,7 +204,7 @@ class Editor {
 					});
 				} else {
 
-					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="image">Add Image</button> <button class="primary create" data-type="html">Add HTML</button> <button class="primary create" data-type="template">Add Template</button></div>`);
+					html.push(`<div style="text-align: center;">Add...<button class="primary create" data-type="text">Add Text</button> <button class="primary create" data-type="poll">Add Poll</button> <button class="primary create" data-type="media">Add Media</button> <button class="primary create" data-type="html">Add HTML</button> <button class="primary create" data-type="template">Add Template</button></div>`);
 					resolve(html.join(''));
 
 				}

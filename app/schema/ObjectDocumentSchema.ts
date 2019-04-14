@@ -3,6 +3,7 @@ import {TextBlock} from "./TextBlock";
 import {CodeBlock} from "./CodeBlock";
 import {RelationshipBlock} from "./RelationshipBlock";
 import {TemplateBlock} from "./TemplateBlock";
+import {MediaBlock} from "./MediaBlock";
 
 export class ObjectDocumentSchema {
 	public _id: string;
@@ -57,6 +58,9 @@ export class ObjectDocumentSchema {
 					break;
 				case "template":
 					schema = TemplateBlock;
+					break;
+				case "media":
+					schema = MediaBlock;
 					break;
 				default:
 					schema = FieldSchema;
