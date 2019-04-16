@@ -1,15 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
-[class*="flex-"] {
-  display: flex; }
+[class*="flex"] {
+  display: flex;
+  align-items: center; }
 
 [class*="-row"] {
   flex-flow: row wrap; }
 
+[class*="-col"] {
+  flex-flow: column;
+  align-items: normal; }
+
 [class*="-inline"] {
   display: inline-flex; }
-
-[class*="-col"] {
-  flex-flow: column; }
 
 [class*="-nowrap"] {
   flex-wrap: nowrap; }
@@ -78,7 +80,7 @@ table, tr, td, th {
   margin: 0;
   line-height: 36px; }
 
-blockquote, .edit, .block, p {
+blockquote, p {
   padding-bottom: 18px; }
 
 p {
@@ -133,19 +135,33 @@ textarea, input[type='text'], input[type='password'], input[type='email'], input
   padding: 18px;
   margin-bottom: 18px; }
 
+button {
+  cursor: pointer; }
+
 input[type='text'], input[type='password'], input[type='email'], input[type=submit], select, button, .input {
   background: #fbfbfb;
   font-size: 14px;
   line-height: 18px; }
 
 label {
-  font-size: 14px;
+  display: block;
   margin-bottom: 9px;
   display: inline-block; }
 
 iframe {
   width: 100%;
   max-height: 200px; }
+
+.edit.block, .edit-controls {
+  border-left: 3px solid #eee;
+  padding-left: 18px; }
+
+.block {
+  margin-bottom: 18px; }
+
+.edit-controls {
+  top: 0;
+  z-index: 1; }
 
 .edit-controls button {
   margin-right: 9px;

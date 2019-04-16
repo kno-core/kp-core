@@ -58,7 +58,7 @@
 								str.push(`<td>${field.value}</td>`);
 							}
 						});
-						str.push(`<td><a href="/collections/edit/${col.type}/${row._id||''}">edit</a><a href="/collections/remove/${col.type}/${row._id||''}">remove</a></td>`);
+						str.push(`<td><a href="/collections/edit/${col.type}/${row._id||''}">edit</a> - <a href="/collections/remove/${col.type}/${row._id||''}">remove</a></td>`);
 						str.push(`</tr>`);
 
 					});

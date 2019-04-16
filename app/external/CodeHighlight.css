@@ -1,15 +1,17 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto");
-[class*="flex-"] {
-  display: flex; }
+[class*="flex"] {
+  display: flex;
+  align-items: center; }
 
 [class*="-row"] {
   flex-flow: row wrap; }
 
+[class*="-col"] {
+  flex-flow: column;
+  align-items: normal; }
+
 [class*="-inline"] {
   display: inline-flex; }
-
-[class*="-col"] {
-  flex-flow: column; }
 
 [class*="-nowrap"] {
   flex-wrap: nowrap; }

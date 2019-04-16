@@ -29,7 +29,7 @@
   color: #fff;
 }
 
-input[type=submit].primary, button.primary {
+input[type=submit].primary, button.primary, button:hover {
   border-color: #0081f5;
   color: #0081f5;
 }
@@ -101,9 +101,4 @@ select {
 }
 .input:last-child {
   padding-bottom: 0;
-}
-.wysiwyg-controls {
-position:sticky;
-  top:0;
-  z-index:1;
 }
