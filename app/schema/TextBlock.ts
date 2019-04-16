@@ -98,4 +98,11 @@ export class TextBlock extends FieldSchema implements BlockInterface {
         el.onchange = _uu;
     }
 
+	getValue(): Promise<string> {
+		let self = this;
+		return new Promise(function (resolve, reject) {
+			resolve(`<div class="container">${self.getValue()}</div>`);
+		});
+	}
+
 }

@@ -1,4 +1,4 @@
-html {
+* {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -18,7 +18,8 @@ html {
 
 h1, h2, h3 {
   padding-bottom: 18px;
-  font-weight: bold; }
+  font-weight: bold;
+  margin: 0; }
 
 table, tr, td, th {
   border-collapse: collapse;
