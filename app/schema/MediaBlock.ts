@@ -137,7 +137,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 		Your browser does not support HTML5 video.
 	</video>`;
 			self.name = "video";
-			let video_source_inner: any = document.getElementById(`explore-new-script-modal-video-${self._handler_id}`);
+			let video_source_inner: any = document.getElementById(`explore-new-script-modal-source-${self._handler_id}`);
 
 			document.getElementById(`explore-quick-video-${self._handler_id}`).onchange = function (evt: any) {
 				console.log('b', evt.srcElement.files);
@@ -173,6 +173,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 		document.getElementById(`explore-quick-video-${self._handler_id}`).onclick = open_video;
 
 		if (self.name === 'video'){
+			open_video();
 			let video_source_inner: any = document.getElementById(`explore-new-script-modal-video-${self._handler_id}`);
 			video_source_inner.load();
 		}
