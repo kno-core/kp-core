@@ -101,7 +101,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 	getValue(): Promise<string> {
 		let self = this;
 		return new Promise(function (resolve, reject) {
-			resolve(`<div class="container">${self.getValue()}</div>`);
+			resolve(`<div class="container">${self.value}</div>`);
 		});
 	}
 

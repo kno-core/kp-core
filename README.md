@@ -11,7 +11,12 @@ $ cd ./app/
 $ npm install
 ```
 
-Then, run the app:
+Then, run the demo: (with default index page at http://localhost:8080/)
+```bash
+$ ts-node demo.ts
+```
+
+or run the app (does not have docs & )
 ```bash
 $ ts-node app.ts
 ```
