@@ -71,7 +71,7 @@ export class RelationshipBlock extends FieldSchema implements BlockInterface {
 		});
 	}
 
-	edit(): Promise<string> {
+    edit(): Promise<string> {
 		let self = this;
 		return new Promise(function (resolve) {
 

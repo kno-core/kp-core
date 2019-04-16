@@ -1,7 +1,6 @@
 import {existsSync, readFileSync} from "fs";
-import {stat} from "fs";
 
-function replaceAll(str, search, replace) {
+function replaceAll(str:any, search:any, replace:any) {
 	if (!replace) {
 		return str;
 	}
@@ -24,7 +23,7 @@ export class Template {
 		return this.contents;
 	}
 
-	apply(template_key_value) {
+	apply(template_key_value:any) {
 		this.loadFile(this.file);
 		let s = ''.concat(this.contents);
 		for (let data in template_key_value) {

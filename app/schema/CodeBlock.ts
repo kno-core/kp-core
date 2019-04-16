@@ -29,7 +29,7 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 
 	}
 
-	edit(): Promise<string> {
+    edit(): Promise<string> {
 		this._handler_id = ((Math.random() * 99999999.99999999) | 0).toString(16);
 		let self = this;
 		return new Promise(function (resolve) {

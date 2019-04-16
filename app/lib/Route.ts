@@ -2,46 +2,46 @@ import {RouteInterface} from "./RouteInterface";
 
 export class Route implements RouteInterface {
 
-	body: Array<string>;
-	head: Array<string>;
-	script: Array<string>;
-	style: Array<string>;
-	request: any;
-	response: any;
+    body: Array<string>;
+    head: Array<string>;
+    script: Array<string>;
+    style: Array<string>;
+    request: any;
+    response: any;
 
-	constructor() {
-		this.body = [];
-		this.head = [];
-		this.script = [];
-		this.style = [];
-	}
+    constructor() {
+        this.body = [];
+        this.head = [];
+        this.script = [];
+        this.style = [];
+    }
 
-	enqueueScript(script: string) {
-		this.script.push(script);
-	}
+    enqueueScript(script: string) {
+        this.script.push(script);
+    }
 
-	enqueueStyle(style: string) {
-		this.style.push(style);
-	}
+    enqueueStyle(style: string) {
+        this.style.push(style);
+    }
 
-	enqueueHead(head: string) {
-		this.head.push(head);
-	}
+    enqueueHead(head: string) {
+        this.head.push(head);
+    }
 
-	enqueueBody(body: string) {
-		this.body.push(body);
-	}
+    enqueueBody(body: string) {
+        this.body.push(body);
+    }
 
-	getPayload() {
-		let self = this;
+    getPayload() {
+        let self = this;
 
-		return new Promise(function (resolve, reject) {
+        return new Promise(function (resolve, reject) {
 
-			let style = self.style.join(' ');
+            let style = self.style.join(' ');
 
-			let script = self.script.join(' ');
+            let script = self.script.join(' ');
 
-			resolve(`<!doctype html>
+            resolve(`<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -54,27 +54,29 @@ ${style}
 
 </head>
 
-<body>${self.body.join(' ')}<script type="text/javascript">${script}</script></body>
+<body>
+<div id="perspective" class="effect-rotateleft"><div class="sandbox">${self.body.join(' ')}</div></div>
+<script type="text/javascript">${script}</script></body>
 </html>`);
 
-		});
+        });
 
-	}
+    }
 
-	getRequest() {
-		return this.request;
-	}
+    getRequest() {
+        return this.request;
+    }
 
-	getResponse() {
-		return this.response;
-	}
+    getResponse() {
+        return this.response;
+    }
 
-	setRequest(request): void {
-		this.request = request;
-	}
+    setRequest(request): void {
+        this.request = request;
+    }
 
-	setResponse(response) {
-		this.response = response;
-	}
+    setResponse(response) {
+        this.response = response;
+    }
 
 }

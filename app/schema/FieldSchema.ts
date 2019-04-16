@@ -20,7 +20,7 @@ export class FieldSchema implements BlockInterface {
 
 	}
 
-	edit(): Promise<string> {
+    edit(): Promise<string> {
 		let self = this;
 		return new Promise(function (resolve, reject) {
 			resolve('Editing Block');
