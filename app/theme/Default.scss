@@ -14,13 +14,6 @@ html {
   width: 100%;
 }
 
-html {
-  background-image: linear-gradient(to bottom, rgba(0, 70, 55, .01) 1px, transparent 1px);
-  background-position: left top;
-  background-repeat: repeat;
-  background-size: 100% $base_line_height;
-}
-
 h1, h2, h3 {
   padding-bottom: $leading;
   font-weight: bold;
@@ -45,7 +38,7 @@ p {
 h1 {
   font-size: $base_font_size*2.5;
   line-height: $leading*2.5;
-  padding-top: $leading * 3;
+  padding-top: $leading * 1;
 }
 
 h2 {

@@ -1,4 +1,10 @@
 @charset "UTF-8";
+html {
+  background-image: linear-gradient(to bottom, rgba(0, 70, 55, 0.01) 1px, transparent 1px);
+  background-position: left top;
+  background-repeat: repeat;
+  background-size: 100% 18px; }
+
 #message-queue {
   height: 0;
   overflow-y: visible;

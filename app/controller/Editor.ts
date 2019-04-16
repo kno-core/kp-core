@@ -182,7 +182,7 @@ class Editor {
 		let chain: Array<FieldSchema> = this.collection.fields.slice(0, this.collection.fields.length);
 		chain = chain.concat(this.collection.blocks.slice(0, this.collection.blocks.length));
 		let html: Array<string> = [];
-		html.push("WTF<div id='editor-controls'></div>");
+		html.push("<div class='edit block'><div id='editor-controls'></div></div>");
 
 		let locked_fields_length = -this.collection.fields.length;
 

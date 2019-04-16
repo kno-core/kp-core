@@ -1,3 +1,9 @@
+html {
+  background-image: linear-gradient(to bottom, rgba(0, 70, 55, 0.01) 1px, transparent 1px);
+  background-position: left top;
+  background-repeat: repeat;
+  background-size: 100% 18px; }
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -9,12 +15,6 @@
 
 html {
   width: 100%; }
-
-html {
-  background-image: linear-gradient(to bottom, rgba(0, 70, 55, 0.01) 1px, transparent 1px);
-  background-position: left top;
-  background-repeat: repeat;
-  background-size: 100% 18px; }
 
 h1, h2, h3 {
   padding-bottom: 18px;
@@ -36,7 +36,7 @@ p {
 h1 {
   font-size: 35px;
   line-height: 45px;
-  padding-top: 54px; }
+  padding-top: 18px; }
 
 h2 {
   font-size: 28px;
