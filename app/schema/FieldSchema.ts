@@ -54,4 +54,8 @@ export class FieldSchema implements BlockInterface {
 			last_modified: this.last_modified
 		}
 	}
+
+	getControls(): string {
+		return ``;
+	}
 }

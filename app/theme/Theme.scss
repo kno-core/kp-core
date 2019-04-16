@@ -48,6 +48,25 @@ input[type=submit].primary:active, button.primary:active {
   cursor: pointer;
 }
 
+input[type=submit].danger, button.danger {
+  border-color: #ff6671;
+  color: #ff6671;
+}
+
+input[type=submit].danger:hover, button.danger:hover {
+  border-color: #ff6671;
+  color: #fff;
+  background-color: #ff6671;
+  cursor: pointer;
+}
+
+input[type=submit].danger:active, button.danger:active {
+  border-color: #ffbce1;
+  color: #ff6671;
+  background-color: #ffbce1;
+  cursor: pointer;
+}
+
 ul, ol {
   margin-left: $leading * 1;
 }

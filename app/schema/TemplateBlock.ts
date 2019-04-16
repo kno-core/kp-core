@@ -20,6 +20,10 @@ if (isNode) {
 
 export class TemplateBlock extends FieldSchema implements BlockInterface {
 
+	getControls(): string {
+		return ``;
+	}
+
 	private _handler_id: string;
 	private _options: any;
 	private cached: any;

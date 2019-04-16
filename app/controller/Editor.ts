@@ -39,7 +39,7 @@ class Editor {
 		self.getHTML().then(function (html) {
 			self.element.innerHTML = html;
 
-			return self.attachHandlers().then(function(){
+			return self.attachHandlers().then(function () {
 				//@ts-ignore
 				window['feather'].replace();
 			});
@@ -65,13 +65,6 @@ class Editor {
 			controls.appendChild(save_btn);
 			//self.element.appendChild(controls);
 
-			self.collection.fields.forEach(function (field: BlockInterface) {
-				field.eventHandler();
-			});
-			self.collection.blocks.forEach(function (field: BlockInterface) {
-				field.eventHandler();
-			});
-
 			function moveUp(index: number) {
 				let v = self.collection.blocks[index];
 				self.collection.blocks[index] = self.collection.blocks[index - 1];
@@ -85,8 +78,9 @@ class Editor {
 				self.collection.blocks[index + 1] = v;
 				self.render()
 			}
+
 			function removeBlock(index: number) {
-				self.collection.blocks.splice(index,1);
+				self.collection.blocks.splice(index, 1);
 				self.render()
 			}
 
@@ -94,6 +88,7 @@ class Editor {
 			if (b) {
 				for (let i = 0; i < b.length; i++) {
 					let el: any = b[i];
+					let block = self.collection.blocks[i];
 
 					let mid = Math.floor(Math.random() * 100000000);
 
@@ -109,7 +104,10 @@ class Editor {
 					}
 
 
-					str += `<button id="${mid}-remove"><i data-feather="delete"></i></button>`;
+					str += `<button id="${mid}-remove" class="danger"><i data-feather="delete"></i></button>`;
+
+
+					str += block.getControls();
 
 
 					el.innerHTML = str;
@@ -141,6 +139,13 @@ class Editor {
 				}
 			}
 
+			self.collection.fields.forEach(function (field: BlockInterface) {
+				field.eventHandler();
+			});
+			self.collection.blocks.forEach(function (field: BlockInterface) {
+				field.eventHandler();
+			});
+
 
 			b = document.getElementsByClassName('create');
 			if (b) {
@@ -156,10 +161,10 @@ class Editor {
 							//	self.collection.blocks.push(new ImageBlock({"type": 'image', "value": ""}));
 							//	break;
 							case "html":
-								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": "","name":"html"}));
+								self.collection.blocks.push(new CodeBlock({"type": 'code', "value": "", "name": "html"}));
 								break;
-								case "media":
-								self.collection.blocks.push(new MediaBlock({"type": 'media', "value": "","name":""}));
+							case "media":
+								self.collection.blocks.push(new MediaBlock({"type": 'media', "value": "", "name": ""}));
 								break;
 							case "template":
 								self.collection.blocks.push(new TemplateBlock({"type": 'template', "value": "", "name": "Template"}, self.render));

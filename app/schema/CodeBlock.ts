@@ -11,6 +11,10 @@ export class CodeBlock extends FieldSchema implements BlockInterface {
 
 	}
 
+	getControls(): string {
+		return `choose lang`;
+	}
+
 	config(): any {
 		return {
 			color: {'type': 'RGB', 'default': "#333"},

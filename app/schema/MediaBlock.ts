@@ -9,6 +9,10 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 		super(block);
 	}
 
+	getControls(): string {
+		return ``;
+	}
+
     edit(): Promise<string> {
 		this._handler_id = ((Math.random() * 99999999.99999999) | 0).toString(16);
 		let self = this;

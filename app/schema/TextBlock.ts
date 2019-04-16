@@ -15,9 +15,27 @@ export class TextBlock extends FieldSchema implements BlockInterface {
         return new Promise(function (resolve, reject) {
             self.getValue().then(function (value) {
                 let output = [];
-                let controls = [];
-                //@ts-ignore
-                controls.push(`<div class="text-controls">
+                //let controls = [];
+
+                switch (self.type) {
+                    case "text":
+                        if (self.name === 'slug' || self.name === 'created' || self.name === 'title' || self.name === 'url') {
+                            output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>${(location ? location.host : 'website.com')}/&nbsp;</label>` : ''}<input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div></div>`);
+                        } else {
+                            output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." value="${self.value}" >${self.value}</div></div></div>`);
+                        }
+                        break;
+
+                }
+                //`<div class="block"><label for="${self._handler_id}">${self.name}</label><input id="${self._handler_id}" name="${self._handler_id}" type="text" value="${value}"/></div>`
+                resolve(output.join(''));
+
+            });
+        });
+    }
+
+    getControls(){
+        return (`
     <button onmousedown="" onclick="document.execCommand('bold', false,'');"><i data-feather="bold"></i></button>
     <button onmousedown="" onclick="document.execCommand('italic', false,'');"><i data-feather="italic"></i></button>
     <button onmousedown="" onclick="document.execCommand('underline', false,'');"><i data-feather="underline"></i></button>
@@ -39,27 +57,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
     <button onmousedown=""  onclick="document.execCommand('createLink', true, url);"><i data-feather="link"></i></button> 
     <button onmousedown=""><i data-feather="maximize"></i></button>
     -->
-
-</div>
 				`);
-
-                console.log(controls);
-
-                switch (self.type) {
-                    case "text":
-                        if (self.name === 'slug' || self.name === 'created' || self.name === 'title' || self.name === 'url') {
-                            output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>${(location ? location.host : 'website.com')}/&nbsp;</label>` : ''}<input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div></div>`);
-                        } else {
-                            output.push(`<div class="edit block">${self.name}<div class="wysiwyg-controls">${controls.join('')}</div><div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." value="${self.value}" >${self.value}</div></div></div>`);
-                        }
-                        break;
-
-                }
-                //`<div class="block"><label for="${self._handler_id}">${self.name}</label><input id="${self._handler_id}" name="${self._handler_id}" type="text" value="${value}"/></div>`
-                resolve(output.join(''));
-
-            });
-        });
     }
 
     view(): Promise<string> {

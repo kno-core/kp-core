@@ -50,6 +50,10 @@ export class RelationshipBlock extends FieldSchema implements BlockInterface {
 
 	}
 
+	getControls(): string {
+		return ``;
+	}
+
 	config(): any {
 		return {
 			color: {'type': 'RGB', 'default': "#333"},

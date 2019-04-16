@@ -5,4 +5,5 @@ export interface BlockInterface extends BlockPropertiesInterface {
 	view(): Promise<string>;
 	getValue(): Promise<any>;
 	eventHandler(): void;
+	getControls():string;
 }
