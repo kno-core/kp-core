@@ -46,17 +46,15 @@ export class Route implements RouteInterface {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" user-scalable="no"/>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 ${self.head.join(' ')}
 <style>
 ${style}
 </style>
-
 </head>
-
 <body>
-<div id="perspective" class="effect-rotateleft"><div class="sandbox">${self.body.join(' ')}</div></div>
-<script type="text/javascript">${script}</script></body>
+${self.body.join(' ')}
+<script type="text/javascript">${script}</script>
+</body>
 </html>`);
 
         });

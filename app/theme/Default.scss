@@ -11,7 +11,12 @@
 }
 
 html {
+  background-image: linear-gradient(to bottom, hsla(200, 100%, 50%, .02) 1px, transparent 1px);
+  background-position: left top;
+  background-repeat: repeat;
+  background-size: 100% $base_line_height;
   width: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3 {
@@ -38,7 +43,7 @@ p {
 h1 {
   font-size: $base_font_size*2.5;
   line-height: $leading*2.5;
-  padding-top: $leading * 1;
+  padding-top: $leading * 3;
 }
 
 h2 {
@@ -64,7 +69,7 @@ a {
 }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 'Roboto', 'Anonymous Pro', monospace;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", $theme, 'Anonymous Pro', monospace;
 }
 
 blockquote {
@@ -116,11 +121,19 @@ iframe {
 }
 
 .edit-controls button {
-  @include text-size(0.5);
-  margin-left: $leading * 0.5;
-  border-bottom: 0;
+  //@include text-size(0.5);
+  margin-right: $leading * 0.5;
+  margin-bottom: $leading * 0.5;
   text-transform: uppercase;
-  font-weight: bold;
+  //font-weight: bold;
+}
+.edit-controls .last {
+  margin-left: auto;
+  margin-right: 0;
+}
+.edit-controls svg {
+  height: 12px;
+  width: 12px;
 }
 
 .edit-title {
@@ -132,8 +145,4 @@ iframe {
 }
 .muted {
   color: #aaa;
-}
-.flex {
-  display: flex;
-  align-items:center;
 }

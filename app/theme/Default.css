@@ -1,8 +1,54 @@
-html {
-  background-image: linear-gradient(to bottom, rgba(0, 70, 55, 0.01) 1px, transparent 1px);
-  background-position: left top;
-  background-repeat: repeat;
-  background-size: 100% 18px; }
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+[class*="flex-"] {
+  display: flex; }
+
+[class*="-row"] {
+  flex-flow: row wrap; }
+
+[class*="-inline"] {
+  display: inline-flex; }
+
+[class*="-col"] {
+  flex-flow: column; }
+
+[class*="-nowrap"] {
+  flex-wrap: nowrap; }
+
+[class*="-reverse"] {
+  flex-direction: row-reverse; }
+
+[class*="align-start"] {
+  align-items: flex-start; }
+
+[class*="align-center"] {
+  align-items: center; }
+
+[class*="align-end"] {
+  align-items: flex-end; }
+
+[class*="justify-start"] {
+  justify-content: flex-end; }
+
+[class*="justify-center"] {
+  justify-content: center; }
+
+[class*="justify-end"] {
+  justify-content: flex-end; }
+
+[class*="space-between"] {
+  justify-content: space-between; }
+
+[class*="space-around"] {
+  justify-content: space-around; }
+
+[class*="grow"] {
+  flex: 1; }
+
+[class*="first"] {
+  order: -1; }
+
+[class*="last"] {
+  order: 1; }
 
 * {
   -webkit-box-sizing: border-box;
@@ -14,7 +60,12 @@ html {
   letter-spacing: 0.02em; }
 
 html {
-  width: 100%; }
+  background-image: linear-gradient(to bottom, rgba(0, 170, 255, 0.02) 1px, transparent 1px);
+  background-position: left top;
+  background-repeat: repeat;
+  background-size: 100% 18px;
+  width: 100%;
+  -webkit-text-size-adjust: 100%; }
 
 h1, h2, h3 {
   padding-bottom: 18px;
@@ -36,7 +87,7 @@ p {
 h1 {
   font-size: 35px;
   line-height: 45px;
-  padding-top: 18px; }
+  padding-top: 54px; }
 
 h2 {
   font-size: 28px;
@@ -57,7 +108,7 @@ a {
   display: inline-block; }
 
 * {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 'Roboto', 'Anonymous Pro', monospace; }
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Roboto, "Anonymous Pro", monospace; }
 
 blockquote {
   font-style: oblique;
@@ -97,12 +148,17 @@ iframe {
   max-height: 200px; }
 
 .edit-controls button {
-  font-size: 7px;
-  line-height: 9px;
-  margin-left: 9px;
-  border-bottom: 0;
-  text-transform: uppercase;
-  font-weight: bold; }
+  margin-right: 9px;
+  margin-bottom: 9px;
+  text-transform: uppercase; }
+
+.edit-controls .last {
+  margin-left: auto;
+  margin-right: 0; }
+
+.edit-controls svg {
+  height: 12px;
+  width: 12px; }
 
 .edit-title {
   margin-bottom: 9px; }
@@ -112,9 +168,5 @@ iframe {
 
 .muted {
   color: #aaa; }
-
-.flex {
-  display: flex;
-  align-items: center; }
 
 /*# sourceMappingURL=Default.css.map */

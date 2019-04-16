@@ -104,7 +104,7 @@ class Editor {
 					}
 
 
-					str += `<button id="${mid}-remove" class="danger"><i data-feather="delete"></i></button>`;
+					str += `<button id="${mid}-remove" class="danger last"><i data-feather="delete"></i></button>`;
 
 
 					str += block.getControls();
@@ -198,7 +198,7 @@ class Editor {
 					block.edit().then(function (dat: string) {
 						let controls = '';
 						if (locked_fields_length >= 0) {
-							controls = `<div class='edit-controls'></div>`;
+							controls = `<div class='edit-controls flex-row'></div>`;
 						}
 						html.push(`${controls}${dat}`);
 						locked_fields_length++;

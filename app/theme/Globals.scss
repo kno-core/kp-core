@@ -1,15 +1,37 @@
+$theme: Roboto;
 $base_font_size: 14px;
 $base_line_height: 18px;
 $leading: $base-line-height;
+
+@if $theme == Roboto {
+  @import url("https://fonts.googleapis.com/css?family=Roboto");
+  $font-body: 'Roboto', sans-serif;
+}
 
 @mixin text-size($size) {
   font-size: $base_font_size*$size;
   line-height: $base_line_height*$size;
 }
 
-html {
-  background-image: linear-gradient(to bottom, rgba(0, 70, 55, .01) 1px, transparent 1px);
-  background-position: left top;
-  background-repeat: repeat;
-  background-size: 100% $base_line_height;
-}
+[class*="flex-"] {display: flex}
+[class*="-row"] {flex-flow: row wrap}
+[class*="-inline"] {display: inline-flex}
+[class*="-col"] {flex-flow: column}
+[class*="-nowrap"] {flex-wrap: nowrap}
+[class*="-reverse"] {flex-direction: row-reverse}
+
+[class*="align-start"] {align-items: flex-start}
+[class*="align-center"] {align-items: center}
+[class*="align-end"] {align-items: flex-end}
+
+[class*="justify-start"] {justify-content: flex-end}
+[class*="justify-center"] {justify-content: center}
+
+[class*="justify-end"] {justify-content: flex-end}
+
+[class*="space-between"] {justify-content: space-between;}
+[class*="space-around"] {justify-content: space-around}
+
+[class*="grow"] {flex: 1}
+[class*="first"] {order: -1}
+[class*="last"] {order: 1}

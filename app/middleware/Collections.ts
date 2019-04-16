@@ -100,7 +100,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					i++;
 				}
 
-				route.enqueueBody(`<div class="container"><h1>Collections</h1>${self.generateMenu()}<table data-src="/collections/get/" data-index="${selected_index}"></table></div>`);
+				route.enqueueBody(`<header class="container"><h1>Collections</h1>${self.generateMenu()}</header><div class="container"><table data-src="/collections/get/" data-index="${selected_index}"></table></div>`);
 				resolve();
 			});
 		});
@@ -198,7 +198,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 							route.enqueueScript(compiled);
 							route.enqueueScript(readFileSync('./external/CodeHighlight.js').toString());
 							let req = route.getRequest();
-							route.enqueueBody(`<div class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1>${self.generateMenu()}<div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
+							route.enqueueBody(`<header class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1></header><div class="container">${self.generateMenu()}<div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
 							resolve();
 						}).catch(function(e){
 							console.trace('compile',e);
