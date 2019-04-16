@@ -14,13 +14,13 @@ export class URLEncoded implements MiddlewareInterface {
 
 		app.use('/(.+)?', function (route: RouteInterface) {
 			return new Promise(function (resolve, reject) {
-				bodyParser.urlencoded({ extended: true })(route.getRequest(),route.getResponse(),resolve);
+				bodyParser.urlencoded({ limit: '150mb',extended: true })(route.getRequest(),route.getResponse(),resolve);
 			});
 		});
 
 		app.use('/(.+)?', function (route: RouteInterface) {
 			return new Promise(function (resolve, reject) {
-				bodyParser.json()(route.getRequest(),route.getResponse(),resolve);
+				bodyParser.json({limit: '150mb'})(route.getRequest(),route.getResponse(),resolve);
 			});
 		});
 
