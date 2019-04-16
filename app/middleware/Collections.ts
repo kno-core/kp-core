@@ -221,8 +221,14 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					return;
 				}
 
+
+
+
+
 				try {
 					let thread = request.body || {};
+
+					console.log('THREAD', thread);
 
 					if (thread._id) {
 						thread._id = require("mongoose").Types.ObjectId(thread._id);

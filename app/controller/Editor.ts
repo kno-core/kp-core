@@ -224,9 +224,12 @@ class Editor {
 		var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance
 		var theUrl = "/collections/post/";
 		xmlhttp.open("POST", theUrl);
+		xmlhttp.withCredentials = true;
 		xmlhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 		xmlhttp.responseType = 'text';
-		xmlhttp.onload = function () {
+
+		xmlhttp.onload = function (e) {
+			console.log(e);
 			if (xmlhttp.readyState === xmlhttp.DONE) {
 				if (xmlhttp.status === 200) {
 					let resp = JSON.parse((xmlhttp.responseText));
@@ -244,7 +247,9 @@ class Editor {
 				}
 			}
 		};
-		xmlhttp.send(JSON.stringify(self.collection));
+		let payload  =JSON.stringify(self.collection);
+		console.log('SENDING ',self.collection, payload);
+		xmlhttp.send(payload);
 	}
 
 }

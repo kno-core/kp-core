@@ -51,7 +51,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
     <button onmousedown=""  onclick="document.execCommand('justifyRight', false,'');"><i data-feather="align-right"></i></button>
     
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<blockquote>');">quote</button>
-    <button onmousedown="" onclick="document.execCommand('removeFormat', false,'');removeSelectedElements('h1,h2,h3,h4,h5,h6,blockquote,span');">clear formatting</button>
+    <button onmousedown="" onclick="document.execCommand('removeFormat', false,'');removeSelectedElements('h1,h2,h3,h4,h5,h6,blockquote,span,li,ul');">clear formatting</button>
 <!--
     <button onmousedown=""  onclick="document.execCommand('', false,'');"><i data-feather="paperclip"></i></button>
     <button onmousedown=""  onclick="document.execCommand('createLink', true, url);"><i data-feather="link"></i></button> 

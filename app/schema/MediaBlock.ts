@@ -56,8 +56,8 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 			//display.innerHTML = `<img src="${block.value}" class="big" id="explore-new-script-modal-img-${i}"/>`;
 			//self._blocks[i].type = "image";
 			console.log('img');
-			/*
-						document.getElementById("explore-new-script-modal-contents-" + i).onchange = function (evt: any) {
+
+						document.getElementById(`explore-quick-image-${self._handler_id}`).onchange = function (evt: any) {
 							if (!evt.srcElement.files) {
 								return;
 							}
@@ -75,7 +75,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 									img.onload = function () {
 										let w = img.naturalWidth || img.width,
 											h = img.naturalHeight || img.height;
-										let _is_portrait = (h > w) || (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window["MSStream"]);// || isAndroid;
+										let _is_portrait = (h > w) || (/iPad|iPhone|iPod/.test(navigator.userAgent));// && !window["MSStream"]);// || isAndroid;
 
 										let cv = document.createElement('canvas');
 										let ctx = cv.getContext('2d');
@@ -83,7 +83,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 
 										let mx = 960;
 
-										function rotateAndPaintImage(context, image, angleInRad, positionX, positionY, axisX, axisY) {
+										function rotateAndPaintImage(context:any, image:any, angleInRad:any, positionX:any, positionY:any, axisX:any, axisY:any) {
 											context.rotate(angleInRad);
 											context.drawImage(image, -axisX, -axisY);
 											context.rotate(-angleInRad);
@@ -120,7 +120,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 								reader.readAsDataURL(input.files[0]);
 								console.log(reader, input.files[0])
 							}
-						};*/
+						};
 			console.log('open image');
 		};
 		document.getElementById(`explore-quick-image-${self._handler_id}`).onclick = open_image;

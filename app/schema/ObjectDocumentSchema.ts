@@ -91,7 +91,6 @@ export class ObjectDocumentSchema {
 				console.log('no matching fields for getProperty');
 				reject('NO MATCHING FIELDS');
 			}
-
 		});
 	}
 
