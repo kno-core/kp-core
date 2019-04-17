@@ -108,7 +108,6 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 											ctx.drawImage(img, 0, 0, cv.width, cv.height);
 										}
 
-										//document.getElementById("explore-new-script-modal-img-" + i).src = cv.toDataURL();
 										self.value = cv.toDataURL();
 
 									};
@@ -161,13 +160,8 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 						console.error(e);
 					}
 
-					//video_source_inner.src = e.target.result;
-					//self.render();
-					console.log('ready...?')
 				};
 				reader.readAsDataURL(input.files[0]);
-
-				//self.render();
 			};
 		};
 		document.getElementById(`explore-quick-video-${self._handler_id}`).onclick = open_video;
