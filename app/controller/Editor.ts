@@ -202,12 +202,13 @@ class Editor {
 			function process() {
 				if (chain.length > 0) {
 					let block: BlockInterface = chain.shift();
+
 					block.edit().then(function (dat: string) {
 						let controls = '';
 						if (locked_fields_length >= 0) {
 							controls = `<div class='edit-controls flex-row'></div>`;
 						}
-						html.push(`${controls}${dat}`);
+						html.push(`<div class="contain">${controls}${dat}</div>`);
 						locked_fields_length++;
 						process();
 					}).catch(function () {

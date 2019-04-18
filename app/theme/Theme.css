@@ -139,4 +139,21 @@ select {
 .input:last-child {
   padding-bottom: 0; }
 
+.edit-controls {
+  border: 1px solid #eee;
+  padding: 9px 9px 0 9px;
+  border-radius: 5px;
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0; }
+
+.edit.block .input {
+  border: 1px solid #eee;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }
+
+.secondary-controls > * {
+  margin-bottom: 9px;
+  margin-right: 9px; }
+
 /*# sourceMappingURL=Theme.css.map */

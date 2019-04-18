@@ -160,7 +160,7 @@ var Editor = (function () {
                         if (locked_fields_length >= 0) {
                             controls = "<div class='edit-controls flex-row'></div>";
                         }
-                        html.push("" + controls + dat);
+                        html.push("<div class=\"contain\">" + controls + dat + "</div>");
                         locked_fields_length++;
                         process();
                     })["catch"](function () {

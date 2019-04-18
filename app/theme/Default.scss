@@ -86,9 +86,10 @@ input, textarea {
 }
 
 textarea, input[type='text'], input[type='password'], input[type='email'], input[type=submit], select, button, .blocks, .input {
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   padding: ($leading * 0.5) - 1;
-  border-radius: 3px;
+  border-radius: 5px;
+ // border:0;
   outline: none;
   -webkit-appearance: none;
   line-height: $base_line_height;
@@ -123,8 +124,8 @@ iframe {
 }
 
 .edit.block, .edit-controls {
-  border-left: 3px solid #eee;
-  padding-left: $leading;
+  //border-left: 3px solid #eee;
+  //padding-left: $leading;
 }
 .block {
   margin-bottom: $leading;
@@ -142,6 +143,9 @@ iframe {
   margin-bottom: $leading * 0.5;
   text-transform: uppercase;
   //font-weight: bold;
+  border:0;
+  border-bottom: 1px solid #eee;
+
 }
 .edit-controls .last {
   margin-left: auto;

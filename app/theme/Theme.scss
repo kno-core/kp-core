@@ -99,6 +99,34 @@ select {
 .editor {
   margin-bottom: $leading*8;
 }
+
 .input:last-child {
   padding-bottom: 0;
+}
+
+.edit-controls {
+  border: 1px solid #eee;
+  padding: $leading*0.5 $leading*0.5 0 $leading*0.5;
+  border-radius: 5px;
+  border-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.edit.block .input {
+  border: 1px solid #eee;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  //min-height: 3em;
+  //max-height: 80vh;
+  //overflow-y:scroll;
+}
+
+.block, .contain {
+  //box-shadow: 0px 1px 2px rgba(0,0,0,0.1);
+}
+
+.secondary-controls > * {
+  margin-bottom: $leading*0.5;
+  margin-right: $leading*0.5;
 }

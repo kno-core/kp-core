@@ -20,7 +20,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 				switch (self.type) {
 					case "text":
 						if (self.name === 'slug' || self.name === 'created' || self.name === 'title' || self.name === 'url') {
-							output.push(`<label>${self.name}</label><div class="edit-window text"><small>${(self.name == 'slug') ? `${(location ? location.host : 'website.com')}/&nbsp;` : ''}</small><input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div>`);
+							output.push(`<label>${self.name}</label><div class="edit-window text flex"><small>${(self.name == 'slug') ? `${(location ? location.host : 'website.com')}/&nbsp;` : ''}</small><input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div>`);
 						} else {
 							output.push(`<div class="edit-window text">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." >${self.value}</div></div>`);
 						}
@@ -62,7 +62,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
     <button onmousedown=""  onclick="document.execCommand('createLink', true, url);"><i data-feather="link"></i></button> 
     <button onmousedown=""><i data-feather="maximize"></i></button>
     -->
-				<div class="flex" style="width:100%;" id="secondary-controls-${self._handler_id}">`);
+				<div class="secondary-controls flex" style="auto" id="secondary-controls-${self._handler_id}">`);
 	}
 
 	view(): Promise<string> {
@@ -158,6 +158,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 			//}
 
 			secondary_controls.innerHTML = "";
+			secondary_controls.style.width="auto";
 		};
 		//@ts-ignore
 		window['editor-link'] = function () {
@@ -167,8 +168,8 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 				secondary_controls.innerHTML = `<input type='text' placeholder='link address' id="link-add-${self._handler_id}" ><button class='primary' onclick='window["insert-link"]();'>add</button>`;
 			} else {
 				secondary_controls.innerHTML = "<small>Please select some text first</small>";
-
 			}
+			secondary_controls.style.width="80%";
 		}
 
 		el.onmousemove = function () {
