@@ -6,7 +6,6 @@ app/public/**
 **/db/**
 app/tmp/**
 app/schema/*.js
-app/controller/*.js
 app/lib/*.js
 app/lib/layer/*.js
 *.map
