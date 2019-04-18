@@ -85,7 +85,7 @@ export class TemplateBlock extends FieldSchema implements BlockInterface {
 				name = `<div class="edit-title">Template: ${self.name}</div>`;
 			}
 
-			output.push(`<div class="edit block" data-block-index="${self._handler_id}">${name}<div class="clr"></div><div class="edit-window text flex">${(self.name == 'slug') ? `<label>Template: ${self.name || '???'}</label>` : ''}`);
+			output.push(`<div class="edit block" data-block-index="${self._handler_id}">${name}<div class="clr"></div><div class="edit-window text">${(self.name == 'slug') ? `<label>Template: ${self.name || '???'}</label>` : ''}`);
 
 			let options: any = [];
 

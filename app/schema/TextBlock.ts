@@ -20,9 +20,9 @@ export class TextBlock extends FieldSchema implements BlockInterface {
                 switch (self.type) {
                     case "text":
                         if (self.name === 'slug' || self.name === 'created' || self.name === 'title' || self.name === 'url') {
-                            output.push(`<label>${self.name}</label><div class="edit-window text flex"><small>${(self.name == 'slug') ? `${(location ? location.host : 'website.com')}/&nbsp;` : ''}</small><input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div>`);
+                            output.push(`<label>${self.name}</label><div class="edit-window text"><small>${(self.name == 'slug') ? `${(location ? location.host : 'website.com')}/&nbsp;` : ''}</small><input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}"/></div>`);
                         } else {
-                            output.push(`<div class="edit-window text flex">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." value="${self.value}" >${self.value}</div></div>`);
+                            output.push(`<div class="edit-window text">${(self.name == 'slug') ? `<label>website.com/&nbsp;</label>` : ''}<div contenteditable="true" class='input' style="width:100%;min-height:3em;" type="text" id="${self._handler_id}" placeholder="You can add some text here, it makes for great conversation." value="${self.value}" >${self.value}</div></div>`);
                         }
                         break;
                 }
@@ -36,7 +36,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 
     getControls(){
         return (`
-    <button onmousedown="" onclick="document.execCommand('bold', false,'');"><i data-feather="bold"></i></button>
+    <button class="bold" onmousedown="" onclick="document.execCommand('bold', false,'');"><i data-feather="bold"></i></button>
     <button onmousedown="" onclick="document.execCommand('italic', false,'');"><i data-feather="italic"></i></button>
     <button onmousedown="" onclick="document.execCommand('underline', false,'');"><i data-feather="underline"></i></button>
 

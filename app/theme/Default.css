@@ -159,7 +159,8 @@ iframe {
 .block {
   margin-bottom: 18px; }
 
-.edit-controls {
+.sticky {
+  position: sticky;
   top: 0;
   z-index: 1; }
 

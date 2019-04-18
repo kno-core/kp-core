@@ -14,8 +14,6 @@ $leading: $base-line-height;
 }
 
 
-
-
 [class*="flex"] {display: flex; align-items: center;}
 [class*="-row"] {flex-flow: row wrap}
 [class*="-col"] {flex-flow: column; align-items: normal; }

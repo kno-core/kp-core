@@ -35,6 +35,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 				output.push(`<div class="edit block">${self.name}<div class="clr"></div><div class="edit-window text flex"><span>${controls.join('')}</span><input type='text' id="${self._handler_id}" placeholder='text' value="${self.value}" readonly/></div><div id="display-${self._handler_id}"></div></div>`);
 
 				//`<div class="block"><label for="${self._handler_id}">${self.name}</label><input id="${self._handler_id}" name="${self._handler_id}" type="text" value="${value}"/></div>`
+				//`<div class="block"><label for="${self._handler_id}">${self.name}</label><input id="${self._handler_id}" name="${self._handler_id}" type="text" value="${value}"/></div>`
 				resolve(output.join(''));
 
 			});
