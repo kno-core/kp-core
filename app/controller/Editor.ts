@@ -27,6 +27,7 @@ class Editor {
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
 					self.collection = new ObjectDocumentSchema(JSON.parse(xhr.responseText));
+					console.log('col', self.collection);
 					self.render();
 				}
 			}

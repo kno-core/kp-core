@@ -4,14 +4,17 @@
  */
 import {DatabaseInterface} from "./DatabaseInterface";
 import {DatabaseStreamInterface} from "./DatabaseStreamInterface";
+import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 
 export class Database implements DatabaseInterface {
 
 	public _databaseInMemory;
+	private collections;
 
 	constructor() {
 		//TODO this should not be using an arbitrary array
 		this._databaseInMemory = [];
+		this.collections = [];
 	}
 
 	public openDB(databaseSource: DatabaseStreamInterface, databaseName: string): boolean {
@@ -104,5 +107,15 @@ export class Database implements DatabaseInterface {
 		return false;
 	}
 
+	use(databaseName: string) {
+	}
+
+	define(collection: string, schema: ObjectDocumentSchema) {
+		this.collections[collection] = schema;
+	}
+
+	getCollections(){
+		return this.collections;
+	}
 
 }

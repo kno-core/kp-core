@@ -7,6 +7,7 @@ Copy `./app/secrets.example.json` to `./app/secrets.json` and enter appropriate 
 
 Secondly, install the packages:
 ```bash
+$ npm install -g ts-node
 $ cd ./app/
 $ npm install
 ```

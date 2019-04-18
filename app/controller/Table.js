@@ -15,6 +15,7 @@
 			if (xhr.readyState === xhr.DONE) {
 				if (xhr.status === 200) {
 					self.collections = (JSON.parse(xhr.responseText));
+					console.log('what', self.collections);
 					self.render();
 				}
 			}
@@ -30,7 +31,7 @@
 				let str = [];
 				let width = col.fields.length;
 
-				if (self.collections.length > 1) {
+				if (self.collections.length >= 1) {
 					let options = [];
 					self.collections.forEach(function (collection, index) {
 						options.push(`<option value="${index}" ${(self._collection === index ? `selected='selected'` : '')}>${collection.type}</option>`);

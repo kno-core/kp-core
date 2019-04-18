@@ -7,6 +7,7 @@ import {Database} from "./Database";
 import {MongoDB} from "./MongoDB";
 import {Authenticator} from "./Authenticator";
 import {DatabaseInterface} from "./DatabaseInterface";
+import {Analytics} from "../middleware/Analytics";
 
 export class Core implements StackInterface, ProviderInterface {
 
@@ -14,12 +15,14 @@ export class Core implements StackInterface, ProviderInterface {
 
 	private iam: Authenticator;
 	private db: Database;
+	private analytics: Analytics;
 
 	constructor() {
 		this.stack = [];
 		this.db = new Database();
 
-		let mongo_db_stream = new MongoDB('kino', function () {});
+		let mongo_db_stream = new MongoDB('kino', function () {
+		});
 		this.db.openDB(mongo_db_stream, 'kino');
 
 		this.iam = new Authenticator(this.db, 'kino');
@@ -45,9 +48,9 @@ export class Core implements StackInterface, ProviderInterface {
 		this.stack.forEach(function (layer) {
 			let match = route.getRequest().url.match(layer.route);
 			if (match) {
-                route.getRequest().params = match.slice(1).map(function (slug) {
-                    return slug || '/';
-                });
+				route.getRequest().params = match.slice(1).map(function (slug) {
+					return slug || '/';
+				});
 				chain.push(layer);
 			}
 		});
@@ -61,13 +64,14 @@ export class Core implements StackInterface, ProviderInterface {
 					}).catch(function (e) {
 						route.getResponse().end(`CHAIN FAILED`);
 						console.log(e);
-						console.trace(e,"chain failure");
+						console.trace(e, "chain failure");
 						reject('Chain Failed');
 					});
 				} else {
 					resolve();
 				}
 			}
+
 			process();
 		});
 
@@ -111,6 +115,14 @@ export class Core implements StackInterface, ProviderInterface {
 
 	IAM(): Authenticator {
 		return this.iam;
+	}
+
+	setAnalytics(analytics:Analytics){
+		this.analytics = analytics;
+	}
+
+	Analytics(): Analytics {
+		return this.analytics;
 	}
 }
 

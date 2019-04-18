@@ -11,8 +11,6 @@ const tsc = new TypescriptCompiler();
 
 interface CollectionInterface {
 
-	define(collection: string, schema: ObjectDocumentSchema);
-
 	find(collection: string, search: any): Promise<Array<ObjectDocumentSchema>>;
 
 	update(collection: string, search, ob);
@@ -23,15 +21,16 @@ interface CollectionInterface {
 export class Collections implements MiddlewareInterface, CollectionInterface {
 
 	private collections;
+	private app;
 
 	setup(app: Core) {
 
 		let self = this;
-		this.collections = {};
+		this.app = app;
 
-		this.define("User", app.IAM().getUserSchema());
+		app.DB().define("User", app.IAM().getUserSchema());
 
-		this.define("Site", new ObjectDocumentSchema(
+		app.DB().define("Site", new ObjectDocumentSchema(
 			{
 				"type": "Site",
 				fields: [
@@ -40,7 +39,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				]
 			}));
 
-		this.define("Page", new ObjectDocumentSchema({
+		app.DB().define("Page", new ObjectDocumentSchema({
 			"type": "Page",
 			fields: [
 				new FieldSchema({"name": "title", "type": "text"}),
@@ -49,7 +48,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			]
 		}));
 
-		this.define("Image", new ObjectDocumentSchema({
+		app.DB().define("Image", new ObjectDocumentSchema({
 			"type": "Image",
 			fields: [
 				new FieldSchema({"name": "title", "type": "text"}),
@@ -57,7 +56,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			]
 		}));
 
-		this.define("Template", new ObjectDocumentSchema({
+		app.DB().define("Template", new ObjectDocumentSchema({
 			"type": "Template",
 			fields: [
 				new FieldSchema({"name": "title", "type": "text"}),
@@ -67,7 +66,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			]
 		}));
 
-		this.define("Comment", new ObjectDocumentSchema({
+		app.DB().define("Comment", new ObjectDocumentSchema({
 			"type": "Comment",
 			fields: [
 				new FieldSchema({"name": "text", "type": "text"})
@@ -78,7 +77,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			return new Promise(function (resolve, reject) {
 				if (app.IAM().isAuthenticated(route)) {
 					resolve();
-				}else{
+				} else {
 					route.enqueueScript(`window.location = '/login/';`);
 					reject('NOT AUTHORIZED');
 				}
@@ -92,9 +91,9 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 				let selected_index = 0;
 				let i = 0;
-				console.log('PARAM',route.getRequest().params[0]);
-				for (let col in self.collections) {
-					if (col == route.getRequest().params[0]){
+				console.log('PARAM', route.getRequest().params[0]);
+				for (let col in app.DB().getCollections()) {
+					if (col == route.getRequest().params[0]) {
 						selected_index = i;
 					}
 					i++;
@@ -126,14 +125,14 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 			return new Promise(function (resolve, reject) {
 				let cols = [];
 				let promises = [];
-				for (var col in self.collections) {
-					if (self.collections.hasOwnProperty(col)) {
-						let collection = Object.assign({},self.collections[col]);
+				for (var col in app.DB().getCollections()) {
+					if (app.DB().getCollections().hasOwnProperty(col)) {
+						let collection = Object.assign({}, app.DB().getCollections()[col]);
 						collection.rows = [];
 
-						promises.push(new Promise(function(resolve){
-							app.DB().search('kino', collection.type,{},50,function(e,r){
-								collection.rows=collection.rows.concat(r);
+						promises.push(new Promise(function (resolve) {
+							app.DB().search('kino', collection.type, {}, 50, function (e, r) {
+								collection.rows = collection.rows.concat(r);
 								resolve();
 							});
 						}));
@@ -141,29 +140,29 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 					}
 				}
 
-				Promise.all(promises).then(function(){
+				Promise.all(promises).then(function () {
 					route.getResponse().end(JSON.stringify(cols));
 					resolve();
 				});
 			});
 		});
 
-		for (var prop in self.collections) {
-			if (self.collections.hasOwnProperty(prop)) {
-				let col = self.collections[prop];
+		for (var prop in  self.app.DB().getCollections()) {
+			if (app.DB().getCollections().hasOwnProperty(prop)) {
+				let col =  self.app.DB().getCollections()[prop];
 				app.use(`/collections/get/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 
 						let req = route.getRequest();
-						if (req.params[0] !== '/'){
-							app.DB().search('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},50,function(e,r){
-								if (e){
-								}else{
+						if (req.params[0] !== '/') {
+							app.DB().search('kino', col.type, {"_id": require("mongoose").Types.ObjectId(req.params[0])}, 50, function (e, r) {
+								if (e) {
+								} else {
 									route.getResponse().end(JSON.stringify(r[0]));
 								}
 								resolve();
 							});
-						}else{
+						} else {
 							route.getResponse().end(JSON.stringify(col));
 							resolve();
 						}
@@ -173,15 +172,15 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				app.use(`/collections/remove/${col.type}/([a-f0-9]{24})?`, function (route: Route) {
 					return new Promise(function (resolve, reject) {
 						let req = route.getRequest();
-						if (req.params[0] !== '/'){
-							app.DB().remove('kino', col.type,{"_id": require("mongoose").Types.ObjectId(req.params[0])},function(e,r){
-								if (e){
-								}else{
+						if (req.params[0] !== '/') {
+							app.DB().remove('kino', col.type, {"_id": require("mongoose").Types.ObjectId(req.params[0])}, function (e, r) {
+								if (e) {
+								} else {
 									route.enqueueScript(`window.location = "/collections/";`);
 								}
 								resolve();
 							});
-						}else{
+						} else {
 							route.getResponse().end(JSON.stringify(col));
 							resolve();
 						}
@@ -198,10 +197,10 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 							route.enqueueScript(compiled);
 							route.enqueueScript(readFileSync('./external/CodeHighlight.js').toString());
 							let req = route.getRequest();
-							route.enqueueBody(`<header class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1></header><div class="container">${self.generateMenu()}<div class="editor" data-src="/collections/get/${col.type}${req.params[0]!=='/'?("/"+req.params[0]):'/'}"></div></div>`);
+							route.enqueueBody(`<header class="container"><h1><span class="muted" style="font-weight:400;">Editing</span> ${col.type}</h1></header><div class="container">${self.generateMenu()}<div class="editor" data-src="/collections/get/${col.type}${req.params[0] !== '/' ? ("/" + req.params[0]) : '/'}"></div></div>`);
 							resolve();
-						}).catch(function(e){
-							console.trace('compile',e);
+						}).catch(function (e) {
+							console.trace('compile', e);
 						});
 					});
 				});
@@ -216,13 +215,10 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 
 			return new Promise(function (resolve, reject) {
 
-				if (!request.body){
+				if (!request.body) {
 					resolve();
 					return;
 				}
-
-
-
 
 
 				try {
@@ -311,6 +307,8 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 										});
 										result.then(function () {
 											route.enqueueBody(`</article>`);
+
+											app.Analytics().submitEvent('pageview',route);
 											resolve();
 										});
 									} else {
@@ -334,20 +332,16 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 		});
 	}
 
-	generateMenu():string{
+	generateMenu(): string {
 		let menu = [];
-
-		for (let prop in this.collections){
-			let scheme:ObjectDocumentSchema = this.collections[prop];
+		let self = this;
+		for (let prop in self.app.DB().getCollections()) {
+			let scheme: ObjectDocumentSchema = self.app.DB().getCollections()[prop];
 
 			menu.push(`<a href="/collections/${scheme.type}/">${scheme.type}</a>`);
 		}
 
 		return `<div class="block">${menu.join(' - ')}</div>`;
-	}
-
-	define(collection: string, schema: ObjectDocumentSchema) {
-		this.collections[collection] = schema;
 	}
 
 	find(collection: string, search: any): Promise<Array<ObjectDocumentSchema>> {

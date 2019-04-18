@@ -8,6 +8,8 @@ export class IAM implements MiddlewareInterface {
 
 	setup(app: Core) {
 
+		let self = this;
+
 		app.use('/(.+)?', function (route: Route) {
 
 			return new Promise(function (resolve, reject) {
@@ -55,5 +57,6 @@ export class IAM implements MiddlewareInterface {
 		});
 
 	}
+
 
 }

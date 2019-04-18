@@ -1,4 +1,5 @@
 import {DatabaseStreamInterface} from "./DatabaseStreamInterface";
+import {ObjectDocumentSchema} from "../schema/ObjectDocumentSchema";
 
 export interface DatabaseInterface {
 
@@ -17,4 +18,10 @@ export interface DatabaseInterface {
 	search(databaseName: string, collection: string, search, count, callback);
 
 	close(databaseName: string);
+
+	use(databaseName:string);
+
+	define(collection: string, schema: ObjectDocumentSchema);
+
+	getCollections():any;
 }
