@@ -65,6 +65,8 @@ var Editor = (function () {
                 self.collection.blocks.splice(index, 1);
                 self.render();
             }
+            function selectionHover() {
+            }
             var b = document.getElementsByClassName('edit-controls');
             if (b) {
                 var _loop_1 = function (i) {

@@ -35,6 +35,8 @@ class Editor {
 		xhr.send(null);
 	}
 
+
+
 	render() {
 		let self = this;
 		self.getHTML().then(function (html) {
@@ -83,6 +85,10 @@ class Editor {
 			function removeBlock(index: number) {
 				self.collection.blocks.splice(index, 1);
 				self.render()
+			}
+
+			function selectionHover(){
+
 			}
 
 			let b = document.getElementsByClassName('edit-controls');
