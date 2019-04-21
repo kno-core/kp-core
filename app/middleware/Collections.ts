@@ -62,6 +62,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 				new FieldSchema({"name": "title", "type": "text"}),
 				new FieldSchema({"name": "css", "type": "code"}),
 				new FieldSchema({"name": "javascript", "type": "code"}),
+				new FieldSchema({"name": "head", "type": "code"}),
 				new FieldSchema({"name": "html", "type": "code"})
 			]
 		}));
@@ -158,6 +159,9 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 							app.DB().search('kino', col.type, {"_id": require("mongoose").Types.ObjectId(req.params[0])}, 50, function (e, r) {
 								if (e) {
 								} else {
+									console.log(app.DB().getCollections());
+									console.log(app.DB().getCollections()[col.type]);
+									r[0] = app.DB().getCollections()[col.type].ensure(r[0]);
 									route.getResponse().end(JSON.stringify(r[0]));
 								}
 								resolve();
@@ -285,6 +289,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 																		route.enqueueBody(ob.getPropertyFast('html'));
 																		route.enqueueScript(ob.getPropertyFast('javascript'));
 																		route.enqueueStyle(ob.getPropertyFast('css'));
+																		route.enqueueHead(ob.getPropertyFast('head'));
 																	}
 																	resolve2('ace');
 																});
