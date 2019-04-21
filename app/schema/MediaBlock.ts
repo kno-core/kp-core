@@ -45,7 +45,7 @@ export class MediaBlock extends FieldSchema implements BlockInterface {
 	view(): Promise<string> {
 		let self = this;
 		return new Promise(function (resolve, reject) {
-			resolve(self.getValue());
+			resolve(`<img src='${self.getValue()}'/>`);
 		});
 	}
 
