@@ -139,6 +139,11 @@ select {
 .input:last-child {
   padding-bottom: 0; }
 
+svg {
+  height: 18px;
+  top: 2px;
+  position: relative; }
+
 .edit-controls {
   border: 1px solid #eee;
   padding: 9px 9px 0 9px;

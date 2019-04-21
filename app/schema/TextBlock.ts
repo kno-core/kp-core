@@ -151,7 +151,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 			//if (selected) {
 				let href: any = (<HTMLInputElement>document.getElementById(`link-add-${self._handler_id}`)).value;
 				restoreSelection(seld);
-				document.execCommand("insertHTML", false, "<a href='" + href + "'>" + selected + "</a>");
+				document.execCommand("insertHTML", false, "<a href='" + href + "' target='_blank'>" + selected + "</a>");
 
 			//} else {
 
