@@ -76,7 +76,7 @@ export class Analytics implements MiddlewareInterface {
 
 				console.log('what');
 
-				app.DB().search('kino', 'Event', {}, 1000, function (e, r) {
+				app.DB().search('kino', 'Event', {}, 100000, function (e, r) {
 
 					let sparklines = [];
 					let min_time = 9999999999999;
@@ -106,7 +106,7 @@ export class Analytics implements MiddlewareInterface {
 						}
 
 					});
-					console.log(min_time, max_time);
+					//console.log(min_time, max_time);
 					for (let i = min_time; i < max_time; i += time_step) {
 						let pv = 0;
 						let rv = 0;
@@ -125,7 +125,7 @@ export class Analytics implements MiddlewareInterface {
 						requests.push(rv);
 					}
 
-					console.log(pageviews);
+					//console.log(pageviews);
 
 
 					sparklines.push(`Requests:<div class="sparkline">${requests.join(',')}</div>`);
@@ -187,11 +187,16 @@ export class Analytics implements MiddlewareInterface {
 	submitEvent(eventName: string, route: RouteInterface) {
 
 		let self = this;
+
+		let sess = '';
+		if (route.getRequest().cookies){
+			sess = route.getRequest().cookies['express:sess']||'';
+		}
 		let event = self.app.DB().getCollections()["Event"].factoryFromFlatObjectAsFields({
 			forwarded: route.getRequest().headers['x-forwarded-for'],
 			tag: eventName,
 			url: route.getRequest().url,
-			session: crypto.createHash('sha1').update(route.getRequest().cookies['express:sess']).digest('hex')
+			session: crypto.createHash('sha1').update(sess).digest('hex')
 		});
 		self.app.DB().save('kino', event.type, event, function (e2, r2) {
 		});
