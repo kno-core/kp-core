@@ -41,11 +41,15 @@ export class TextBlock extends FieldSchema implements BlockInterface {
     <button onmousedown="" onclick="document.execCommand('italic', false,'');"><i data-feather="italic"></i></button>
     <button onmousedown="" onclick="document.execCommand('underline', false,'');"><i data-feather="underline"></i></button>
 
+
+
+	<!--<button onmousedown="" id="controls-caption-${self._handler_id}">Caption</button>-->
+	
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<h1>');">H1</button>
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<h2>');">H2</button>
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<h3>');">H3</button>
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<p>');">P</button>
-    <button onmousedown=""  onclick="document.execCommand('insertUnorderedList', false,'');"><i data-feather="list"></i></button>
+    <button onmousedown="" onclick="document.execCommand('insertUnorderedList', false,'');"><i data-feather="list"></i></button>
     
     <button onmousedown=""  onclick="document.execCommand('justifyLeft', false,'');"><i data-feather="align-left"></i></button>
     <button onmousedown=""  onclick="document.execCommand('justifyCenter', false,'');"><i data-feather="align-center"></i></button>
@@ -54,7 +58,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
     <button onmousedown="" onclick="document.execCommand('formatBlock', false,'<blockquote>');">quote</button>
     <button onmousedown="" onclick="document.execCommand('removeFormat', false,'');removeSelectedElements('h1,h2,h3,h4,h5,h6,blockquote,span,li,ul,a');">clear formatting</button>
 
-    <button onmousedown=""  onclick="window['editor-link']()"><i data-feather="link"></i></button> 
+    <button onmousedown="" onclick="window['editor-link']()"><i data-feather="link"></i></button> 
 
 
 <!--
@@ -87,7 +91,6 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 			}
 			return false;
 		}
-		return false;
 	}
 
 	eventHandler() {
@@ -118,6 +121,7 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 		el.oninput = _uu;
 		el.onchange = _uu;
 
+
 		//@ts-ignore
 		let sel: any = document.selection;
 
@@ -131,17 +135,69 @@ export class TextBlock extends FieldSchema implements BlockInterface {
 			return null;
 		}
 
+/*
+		var commands:any = {state: {}, exec: {}, value: {}};
+//Add your costum command
+		function addCommand(command:any, callback:any, scope:any) {
+			command = command.toLowerCase();
+			commands.exec[command] = function(args:any) {
+				return callback.apply(scope , args);
+			};
+		}
+
+//Exec the command
+		function  execCommand( ){
+			var args:any = [];
+			Array.prototype.push.apply( args, arguments );
+			var customCommand:any = args.shift().toLowerCase();
+			var func:any;
+			if ((func = commands.exec[customCommand])) {
+				func(args);
+				return true;
+			}
+		}
+
+//Exemple add insertfigure command
+		//@ts-ignore
+		addCommand('insertfigure',function( src:any ,caption:any){
+// IE <= 10
+			//@ts-ignore
+			if (document.selection){
+				//@ts-ignore
+				var range:any = document.selection.createRange();
+				range.pasteHTML('<figure> <img src= "' + src + '" /  <figcaption>'
+					+ caption + '</figcaption> </figure>');
+
+// IE 11 && Firefox, Opera .....
+			}else if(document.getSelection) {
+				var range:any = window.getSelection().getRangeAt(0);
+				var figure:any = document.createElement("figure");
+				range.surroundContents(figure);
+				figure.innerHTML = '<img src= "' + src + '" /><figcaption>'
+					+ caption + '</figcaption>';
+			}
+		});
+
+		let controls_format_caption:any = document.getElementById('controls-caption-'+self._handler_id);
+		controls_format_caption.onclick=function(){
+			//@ts-ignore
+			execCommand('insertfigure','http://example.org/image.jpg','your_caption')
+		};
+
+*/
+
 		function restoreSelection(range:any) {
 			if (range) {
 				if (window.getSelection) {
-					var sel = window.getSelection();
+					var sel:any = window.getSelection();
 					sel.removeAllRanges();
 					sel.addRange(range);
 				}
 			}
 		}
 
-		let secondary_controls = document.getElementById(`secondary-controls-${self._handler_id}`);
+
+		let secondary_controls:any = document.getElementById(`secondary-controls-${self._handler_id}`);
 		let seld: any;
 		let selected:any;
 		//@ts-ignore

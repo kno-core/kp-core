@@ -276,7 +276,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 										hit = true;
 										route.enqueueStyle(readFileSync('./theme/Default.css').toString());
 										route.enqueueStyle(readFileSync('./theme/Theme.css').toString());
-										route.enqueueBody(`<article>`);
+										route.enqueueBody(``);
 										page_ob.blocks.forEach(function (f, index) {
 											tasks.push(
 												function () {
@@ -311,7 +311,7 @@ export class Collections implements MiddlewareInterface, CollectionInterface {
 											result = result.then(() => task());
 										});
 										result.then(function () {
-											route.enqueueBody(`</article>`);
+											route.enqueueBody(``);
 
 											app.Analytics().submitEvent('pageview',route);
 											resolve();
